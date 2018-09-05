@@ -7,6 +7,7 @@ import Router from 'vue-router'
 //const option3 = resolve => require(['@/components/option3'],resolve);
 //const upload = resolve => require(['@/components/upload'],resolve);
 const labelSystem = resolve => require(['@/components/labelSystem'],resolve);
+const systemDetail = resolve => require(['@/components/systemDetail'],resolve);
 
 Vue.use(Router)
 
@@ -25,8 +26,9 @@ routes: [
 //				]
 //		}
 
-			{path:'/',redirect:'/labelSystem'},
-			{path:'/labelSystem',component:labelSystem},
+	{path:'/',redirect:'/labelSystem'},
+	{path:'/labelSystem',component:labelSystem},
+	{path:'/systemDetail',component:systemDetail},
 			
 ]
 })

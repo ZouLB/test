@@ -6,4 +6,33 @@
         color: white;
         text-indent: 5px;
     }
+    .ivu-input-group-append{
+        background-color: rgb(23,143,254);
+    }
+}
+
+#sys-detail{
+    .ivu-input-group .ivu-input{
+        height: 42px;
+        background-color: rgb(71,74,86);
+        font-size: 15px;
+        color: white;
+        text-indent: 5px;
+    }
+    .ivu-input-group-append{
+        background-color: rgb(23,143,254);
+    }
+    .ivu-tabs-nav-scroll{
+        height: 52px;
+        padding: 0 20px;
+        background-color: rgb(60,63,72);
+        .ivu-tabs-nav{
+            height: 52px;
+            .ivu-tabs-tab{
+                font-size: 15px;
+                padding: 15px 16px;
+                color: #e8eaec;
+            }
+        }
+    }
 }

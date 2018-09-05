@@ -2,17 +2,19 @@
 	<div id="label-system">
 		<Row class="search-bar">
 	        <Col span="14" offset="5">
-	        	<Input search enter-button="搜索" placeholder="输入关键字搜索..."/>
+	        	<Input search suffix="ios-search" enter-button="搜索" placeholder="输入关键字搜索..." @on-search="$_search"/>
 	        </Col>
-	   	</Row>
+	   </Row>
 	   	
 	   	<Row type="flex" justify="center">
 	        <Col span="10">
-	            <Card>
+	            <Card class="clearfix">
 	            	<div>
 	            		<h2>移动基站</h2>
-	            		<img src="../assets/img/1.png"/>
-	                	<p>精准检索</p>
+	            		<div class="character">
+		            		<img src="../assets/img/1.png"/>
+	            		</div>
+	                	<p>精确检索</p>
 	            	</div>
 	            </Card>
 	        </Col>
@@ -20,8 +22,10 @@
 	            <Card>
 	                <div>
 	            		<h2>移动基站</h2>
-	            		<img src="../assets/img/1.png"/>
-	                	<p>精准检索</p>
+	            		<div class="character">
+		            		<img src="../assets/img/1.png"/>
+	            		</div>
+	                	<p>精确检索</p>
 	            	</div>
 	            </Card>
 	        </Col>
@@ -29,39 +33,57 @@
 	</div>
 </template>
 
+<script>
+	export default {
+	  data() {
+	    return {
+	    	
+	    };
+	  },
+	  methods: {
+	  	$_search(){
+	  		this.$router.push({ path: '/systemDetail' });
+	  	}
+	  },
+	  mounted() {
+	  	
+	  },
+	};
+</script>
+
 <style scoped="scoped" lang="scss">
-	#label-system{
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background-color: rgb(47,50,59);
-		.search-bar{
-			margin-top: 150px;
-			margin-bottom: 100px;
+	.search-bar{
+		margin: 105px 0;
+	}
+	.ivu-input-group{
+		font: 20px "微软雅黑";
+	}
+	.ivu-input-group-append{
+		background-color: rgb(23,143,254);
+	}
+	.ivu-card{
+		text-align: center;
+		background-color: rgb(229,229,229);
+		h2{
+			color: #333;
+			font: 30px "微软雅黑";
+			padding: 16px 0;
 		}
-		.ivu-input-group{
-			height: 60px;
-			font: 20px "微软雅黑";
+		.character{
+			height: 230px;
+			overflow: hidden;
+			margin-bottom: 16px;
 		}
-		.ivu-card{
-			text-align: center;
-			background-color: rgb(229,229,229);
-			h2{
-				color: #333;
-				font: 30px "微软雅黑";
-				padding: 16px 0;
-			}
-			img{
-				padding-bottom: 16px;
-			}
-			p{
-				text-align: right;
-				cursor: pointer;
+		img{
+			height: 100%;
+		}
+		p{
+			text-align: right;
+			cursor: pointer;
+			&:hover{
+				color: rgb(23,143,254);
 			}
 		}
-		
 	}
 	
 </style>
