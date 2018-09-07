@@ -17,6 +17,7 @@ export default {
 @import "src/assets/scss/style.scss";
 
 .child-view{
+	min-width: 1000px;
 	position: absolute;
 	left: 0;
 	right: 0;

@@ -2,7 +2,7 @@
 	<div id="label-system">
 		<Row class="search-bar">
 	        <Col span="14" offset="5">
-	        	<Input search suffix="ios-search" enter-button="搜索" placeholder="输入关键字搜索..." @on-search="$_search"/>
+	        	<Input search icon="ios-search" enter-button="搜索" placeholder="输入关键字搜索..." @on-search="$_search"/>
 	        </Col>
 	   </Row>
 	   	
@@ -53,7 +53,7 @@
 
 <style scoped="scoped" lang="scss">
 	.search-bar{
-		margin: 105px 0;
+		margin: 148px 0;
 	}
 	.ivu-input-group{
 		font: 20px "微软雅黑";
@@ -66,7 +66,7 @@
 		background-color: rgb(229,229,229);
 		h2{
 			color: #333;
-			font: 30px "微软雅黑";
+			font: 22px "微软雅黑";
 			padding: 16px 0;
 		}
 		.character{
@@ -75,6 +75,7 @@
 			margin-bottom: 16px;
 		}
 		img{
+			width: 100%;
 			height: 100%;
 		}
 		p{
@@ -85,5 +86,6 @@
 			}
 		}
 	}
+	
 	
 </style>

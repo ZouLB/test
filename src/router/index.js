@@ -8,6 +8,9 @@ import Router from 'vue-router'
 //const upload = resolve => require(['@/components/upload'],resolve);
 const labelSystem = resolve => require(['@/components/labelSystem'],resolve);
 const systemDetail = resolve => require(['@/components/systemDetail'],resolve);
+const baseStation = resolve => require(['@/components/baseStation'],resolve);
+const labelCategory = resolve => require(['@/components/labelCategory'],resolve);
+const test = resolve => require(['@/components/test'],resolve);
 
 Vue.use(Router)
 
@@ -29,6 +32,9 @@ routes: [
 	{path:'/',redirect:'/labelSystem'},
 	{path:'/labelSystem',component:labelSystem},
 	{path:'/systemDetail',component:systemDetail},
+	{path:'/baseStation',component:baseStation},
+	{path:'/labelCategory',component:labelCategory},
+	{path:'/test',component:test},
 			
 ]
 })

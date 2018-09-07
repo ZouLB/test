@@ -5,9 +5,24 @@
         font-size: 15px;
         color: white;
         text-indent: 5px;
+        border-color: #178ffe;
     }
     .ivu-input-group-append{
         background-color: rgb(23,143,254);
+    }
+    i.ivu-icon.ivu-icon-ios-search{
+        right: 57px;
+        font-size: 28px;
+        color: #fff;
+        line-height: 60px;
+        cursor: pointer;
+    }
+    .ivu-input-group-append{
+        padding-left: 38px !important;
+    }
+    .ivu-input-with-search:hover .ivu-input,
+    .ivu-input:focus{
+        border-color: #2db7f5 !important;
     }
 }
 
@@ -18,9 +33,7 @@
         font-size: 15px;
         color: white;
         text-indent: 5px;
-    }
-    .ivu-input-group-append{
-        background-color: rgb(23,143,254);
+        border-color: #178ffe;
     }
     .ivu-tabs-nav-scroll{
         height: 52px;
@@ -33,6 +46,268 @@
                 padding: 15px 16px;
                 color: #e8eaec;
             }
+        }
+    }
+    .ivu-tabs-content{
+        position: absolute;
+        top: 51px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    i.ivu-icon.ivu-icon-ios-search{
+        right: 45px;
+        font-size: 20px;
+        color: #fff;
+        line-height: 44px;
+        cursor: pointer;
+    }
+    .ivu-layout-header .ivu-input-group-append{
+        padding-left: 30px !important;
+    }
+    .ivu-input-with-search:hover .ivu-input,
+    .ivu-input:focus{
+        border-color: #2db7f5 !important;
+    }
+}
+
+#base-station{
+    .ivu-split-trigger-vertical{
+        width: 12px;
+        background-color: rgb(47,50,59);
+    }
+    .ivu-split-trigger-horizontal{
+        height: 12px;
+        background-color: rgb(47,50,59);
+    }
+    .ivu-split-trigger{
+        border: none;
+    }
+    .left{
+        .ivu-input{
+            background-color: rgb(71,74,86);
+            border-color: rgb(96,98,114);
+            height: 48px;
+            color: white;
+            text-indent: 5px;
+        }
+        .ivu-tree{
+            padding: 10px 8px;
+            color: rgb(198,198,200);
+            ul.ivu-tree-children li{
+                margin: 18px 0;
+            }
+            .ivu-tree-children .ivu-tree-children .ivu-tree-title:before{
+                content: '';
+                display: inline-block;
+                width: 7px;
+                height: 7px;
+                background-color: rgb(198,198,200);
+                border-radius: 50%;
+                position: relative;
+                top: -2px;
+                left: -10px;
+            }
+            .ivu-tree-title{
+                color: rgb(198,198,200);
+                font-size: 14px;
+                &:hover{
+                    background-color: transparent;
+                    color: rgb(23,143,254);
+                }
+            }
+            .ivu-tree-title-selected, 
+            .ivu-tree-title-selected:hover{
+                background-color: transparent;
+                color: rgb(23,143,254);
+            }
+        }
+    }
+    .ivu-split-pane.top-pane{
+        padding: 12px;
+        overflow: auto;
+    }
+    .ivu-split-pane.bottom-pane{
+        overflow: auto;
+    }
+    .top{
+//      .ivu-radio-group-button .ivu-radio-wrapper,
+        .ivu-btn-group > .ivu-btn{
+            background-color: rgb(64,67,78);
+            border-color: rgb(77,81,93);
+            color: rgb(178,178,179);
+            &:hover{
+                color: #45a5fe;
+                border-color: #45a5fe;
+            }
+        }
+//      .ivu-radio-group-button .ivu-radio-wrapper:before, 
+//      .ivu-radio-group-button .ivu-radio-wrapper:after{
+//          background-color: rgb(77,81,93);
+//      }
+        .ivu-table th{
+            background-color: rgb(71,74,86);
+            color: rgb(198,198,200);
+            font-size: 14px;
+            height: 40px;
+        }
+        .ivu-table td{
+            background-color: rgb(87,90,106);
+            color: rgb(198,198,200);
+            .ivu-select-selection,
+            .ivu-input{
+                background: transparent;
+                border: none;
+                outline: none;
+                color: rgb(198,198,200);
+                &:focus{
+                    box-shadow: none;
+                }
+            }
+            .ivu-select-dropdown{
+                background: rgb(71,74,86);
+            }
+            .ivu-select-item{
+                color: rgb(198,198,200);
+            }
+            .ivu-select-item-selected, 
+            .ivu-select-item-selected:hover{
+                color: rgb(23,143,254);
+            }
+            .ivu-select-item-focus,
+            .ivu-select-item:hover{
+                background: transparent;
+            }
+        }
+        .ivu-table-border th, 
+        .ivu-table-border td,
+        .ivu-table-wrapper{
+            border-color: rgb(103,106,123);
+        }
+        .ivu-table:before,
+        .ivu-table:after{
+            background-color: rgb(103,106,123);
+        }
+//      .ivu-radio-group-button .ivu-radio-wrapper:hover{
+//          color: #45a5fe !important;
+//      }
+    }
+    .bottom{
+        .bot-head{
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgb(77,81,93);
+        }
+        .ivu-btn-ghost.ivu-btn-dashed, .ivu-btn-ghost.ivu-btn-default{
+            border-color: rgb(77,81,93);
+            color: rgb(178,178,179);
+        }
+        .ivu-card{
+            width: 150px;
+            background-color: rgb(71,74,86);
+            border-color: rgb(96,98,114);
+            color: rgb(198,198,200);
+            cursor: pointer;
+            float: left;
+            margin: 0 12px 12px 0;
+            .ivu-card-body{
+                padding: 10px;
+                position: relative;
+                h4{
+                    font-size: 16px;
+                    text-align: center;
+                }
+                .ivu-icon-md-close{
+                    display: none;
+                    position: absolute;
+                    top: 2px;
+                    right: 2px;
+                    &:hover{
+                        color: rgb(23,143,254);
+                    }
+                }
+            }
+            &:hover{
+                border-color: #808695;
+                .ivu-icon-md-close{
+                    display: block;
+                }
+            }
+        }
+        .ivu-btn-ghost.ivu-btn-dashed:hover, 
+        .ivu-btn-ghost.ivu-btn-default:hover{
+            color: #45a5fe !important;
+            border-color: #45a5fe !important;
+        }
+    }
+}
+
+#label-cate{
+    .ivu-input{
+        background-color: rgb(71,74,86);
+        border-color: rgb(96,98,114);
+        color: white;
+        text-indent: 5px;
+    }
+    .ivu-btn-ghost.ivu-btn-dashed, 
+    .ivu-btn-ghost.ivu-btn-default{
+        border-color: rgb(77,81,93);
+        color: rgb(178,178,179);
+        margin: 0 6px;
+    }
+    .ivu-btn-ghost.ivu-btn-dashed:hover, 
+    .ivu-btn-ghost.ivu-btn-default:hover{
+        color: #45a5fe !important;
+        border-color: #45a5fe !important;
+    }
+    .ivu-btn-ghost.ivu-btn-primary{
+        &:hover{
+            background-color: rgb(71,74,86) !important;
+        }
+    }
+    .ivu-radio-group-button{
+        margin:0 6px;
+    }
+    .ivu-radio-group-button .ivu-radio-wrapper{
+        border-color: rgb(77,81,93);
+        background-color: rgb(71,74,86);
+        color: rgb(178,178,179);
+        padding: 0 6px;
+    }
+    .ivu-radio-group-button .ivu-radio-wrapper-checked:first-child,
+    .ivu-radio-focus{
+        background-color: #808695 !important;
+    }
+    .left{
+        .ivu-anchor{
+            padding: 8px;
+        }
+        .ivu-anchor-link{
+            font-size: 14px;
+            &.ivu-anchor-link-active{
+                font-size: 15px;
+                border-left: 2px solid rgb(23,143,254);
+                a{
+                    color: rgb(23,143,254);
+                }
+            }
+            a{
+                color: #808695;
+            }
+        }
+        .ivu-anchor-ink{
+            display: none;
+        }
+    }
+    .right{
+        .ivu-form .ivu-form-item-label{
+            color: #808695;
+            font-size: 12px;
+        }
+        .ivu-form-item{
+            float: left;
+        }
+        .ivu-input{
+            color: rgb(197,200,206);
         }
     }
 }
