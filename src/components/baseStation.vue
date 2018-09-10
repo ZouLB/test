@@ -50,8 +50,52 @@
 		            		<draggable element="div" v-model="columns1" :options="dragOptions">
 						        <transition-group name="no" class="tableWrap">
 		            				<Table border size="small" :columns="columns1" :data="data1" :key="1" @on-selection-change="handleSelectionChange"></Table>
-						        </transition-group>
-						    </draggable>
+						        </transition-group>	
+						    </draggable> 
+						    
+				        	<!--<div class="ivu-table-wrapper" draggable="false">
+				        		<div class="ivu-table ivu-table-small ivu-table-border">
+				        			<div class="ivu-table-header">
+				        				<table cellspacing="0" cellpadding="0" border="0">
+				        					<colgroup>
+				        						<col width="60"><col width="90"> 
+				        					</colgroup> 
+				        					<thead>
+				        						<tr>
+					        						<th class="ivu-table-column-center">
+					        							<div class="ivu-table-cell ivu-table-cell-with-selection">
+					        								<label class="ivu-checkbox-wrapper ivu-checkbox-wrapper-disabled ivu-checkbox-default"><span class="ivu-checkbox ivu-checkbox-disabled">
+					        									<span class="ivu-checkbox-inner"></span> 
+					        									<input type="checkbox" disabled="disabled" class="ivu-checkbox-input">
+					        									</span> 
+					        								</label>
+					        							</div>
+					        						</th>
+					        						<th class="ivu-table-column-center">
+					        							<div class="ivu-table-cell">
+					        								<span class="">操作</span> 
+					        							</div>
+					        						</th> 
+					        						<draggable  v-model="columns1" :options="dragOptions" class="tableWrap">
+												        <transition-group name="no">
+								            				<th v-for="(v,i) in columns1" :key="i">
+							        							<div class="ivu-table-cell">
+							        								{{v.type}} 
+							        							</div>
+							        						</th> 
+												        </transition-group>	
+												    </draggable> 
+					        					</tr>
+				        					</thead>
+				        					<tbody>
+				        						<tr>
+				        							<td></td>
+				        						</tr>
+				        					</tbody>
+				        				</table>
+				        			</div>  
+				        		</div> 
+				        	</div>-->
 		            	</div>
 		            </div>
 		            <div slot="bottom" class="demo-split-pane bottom">
@@ -61,13 +105,11 @@
 		            	<div class="bot-con">
 		            		<draggable element="div" v-model="list2" :options="dragOptions" class="cardGroup">
 						        <transition-group name="no" class="list-group" tag="ul">
-						        	<div v-for="element in list2" :key="element.title">
-				            			<Card>
-				            				<Icon type="md-close" title="删除" @click.stop="$_delCard(element.title)"/>
-							                <h4>{{element.title}}</h4>
-							                <p>=[]</p>
-							            </Card>
-				            		</div>
+			            			<Card v-for="element in list2" :key="element.title">
+			            				<Icon type="md-close" title="删除" @click.stop="$_delCard(element.title)"/>
+						                <h4>{{element.title}}</h4>
+						                <p>=[]</p>
+						            </Card>
 						        </transition-group>
 						    </draggable>
 		            	</div>
@@ -80,7 +122,6 @@
 	        v-model="modelShow"
 	        title="批量更新标签值"
 	        draggable
-	        :styles="{top: '250px'}"
 	        width="400"
 	        >
 	        <Form :label-width="60" ref="editForm" v-model="editForm">
@@ -229,44 +270,44 @@
                         ]);
                     }
                 },
-                {
-                    title: 'Name',
-                    key: 'name',
-                    width:150,
-                    renderHeader: (h, params) => {
-				        return h('div',
-				        [	
-				        	h('span', params.column.title),
-				        	h('Icon', {
-                                props: {
-                                    type: 'md-close',
-                                },
-                                domProps: {
-                                    title: '移除'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.$_delLabel(params.column.title);
-                                    }
-                                }
-                            }),
-				        	h('Icon', {
-                                props: {
-                                    type: 'ios-create-outline',
-                                },
-                                domProps: {
-                                    title: '批量更新值'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.$_showModel(params.column.title);
-                                    }
-                                }
-                            }),
-				        ]
-				        );
-			        }
-                },
+//              {
+//                  title: 'Name',
+//                  key: 'name',
+//                  width:150,
+//                  renderHeader: (h, params) => {
+//				        return h('div',
+//				        [	
+//				        	h('span', params.column.title),
+//				        	h('Icon', {
+//                              props: {
+//                                  type: 'md-close',
+//                              },
+//                              domProps: {
+//                                  title: '移除'
+//                              },
+//                              on: {
+//                                  click: () => {
+//                                      this.$_delLabel(params.column.title);
+//                                  }
+//                              }
+//                          }),
+//				        	h('Icon', {
+//                              props: {
+//                                  type: 'ios-create-outline',
+//                              },
+//                              domProps: {
+//                                  title: '批量更新值'
+//                              },
+//                              on: {
+//                                  click: () => {
+//                                      this.$_showModel(params.column.title);
+//                                  }
+//                              }
+//                          }),
+//				        ]
+//				        );
+//			        }
+//              },
 //              {
 //                  title: 'Age',
 //                  key: 'age',
@@ -316,30 +357,30 @@
 //              }
             ],
             data1: [
-                {
-                    name: 'John Brown',
-                    age: 18,
-                    address: 'New York No. 1 Lake Park',
-                    sex: '1'
-                },
-                {
-                    name: 'Jim Green',
-                    age: 24,
-                    address: 'London No. 1 Lake Park',
-                    sex: '1'
-                },
-                {
-                    name: 'Joe Black',
-                    age: 30,
-                    address: 'Sydney No. 1 Lake Park',
-                    sex: '1'
-                },
-                {
-                    name: 'Jon Snow',
-                    age: 26,
-                    address: 'Ottawa No. 2 Lake Park',
-                    sex: '2'
-                }
+//              {
+//                  name: 'John Brown',
+//                  age: 18,
+//                  address: 'New York No. 1 Lake Park',
+//                  sex: '1'
+//              },
+//              {
+//                  name: 'Jim Green',
+//                  age: 24,
+//                  address: 'London No. 1 Lake Park',
+//                  sex: '1'
+//              },
+//              {
+//                  name: 'Joe Black',
+//                  age: 30,
+//                  address: 'Sydney No. 1 Lake Park',
+//                  sex: '1'
+//              },
+//              {
+//                  name: 'Jon Snow',
+//                  age: 26,
+//                  address: 'Ottawa No. 2 Lake Park',
+//                  sex: '2'
+//              }
             ],
             modelShow:false,
             cityList: [

@@ -7,7 +7,7 @@
 	   </Row>
 	   	
 	   	<Row type="flex" justify="center">
-	        <Col span="10">
+	        <Col :xs="10" :lg="9">
 	            <Card class="clearfix">
 	            	<div>
 	            		<h2>移动基站</h2>
@@ -18,7 +18,7 @@
 	            	</div>
 	            </Card>
 	        </Col>
-	        <Col span="10" offset="1">
+	        <Col :xs="{ span: 10, offset: 1 }" :lg="{ span: 9, offset: 1 }">
 	            <Card>
 	                <div>
 	            		<h2>移动基站</h2>
@@ -53,7 +53,7 @@
 
 <style scoped="scoped" lang="scss">
 	.search-bar{
-		margin: 148px 0;
+		margin: 105px 0;
 	}
 	.ivu-input-group{
 		font: 20px "微软雅黑";
@@ -67,12 +67,12 @@
 		h2{
 			color: #333;
 			font: 22px "微软雅黑";
-			padding: 16px 0;
+			padding: 14px 0;
 		}
 		.character{
 			/*height: 230px;*/
 			overflow: hidden;
-			margin-bottom: 16px;
+			margin-bottom: 11px;
 		}
 		img{
 			width: 100%;
