@@ -178,11 +178,49 @@
             .ivu-select-item:hover{
                 background: transparent;
             }
+            .ivu-icon{
+                cursor: pointer;
+                &:hover{
+                    color: rgb(23,143,254);
+                }
+            }
         }
         .ivu-table-border th, 
         .ivu-table-border td,
         .ivu-table-wrapper{
             border-color: rgb(103,106,123);
+        }
+        .ivu-table-border th{
+            border-bottom:none ;
+            position: relative;
+//          div{
+//              width: 100%;
+//          }
+            &:hover>div i{
+                display: block;
+            }
+            
+            i{
+                display: none;
+                position: absolute;
+                right: 0;
+                width: 19px;
+                height: 19px;
+                background-color: #575a6a;
+                font-size: 15px;
+                line-height: 19px;
+                text-align: center;
+                cursor: pointer;
+                &:hover{
+                    color: rgb(23,143,254);
+                }
+                &.ivu-icon-md-close{
+                    top: 0;
+                }
+                &.ivu-icon-ios-create-outline{
+                    bottom: 0;
+                }
+            }
         }
         .ivu-table:before,
         .ivu-table:after{
@@ -238,6 +276,13 @@
             color: #45a5fe !important;
             border-color: #45a5fe !important;
         }
+    }
+    .ivu-table-header{
+        background-color: #474a56;
+        border-bottom: 1px solid #676a7b;
+    }
+    .ivu-table{
+        background-color: #575a6a;
     }
 }
 

@@ -1,8 +1,8 @@
 <template>
 	<div id="label-cate">
 		<header>
-			<Icon type="md-home" />
-			<Icon type="md-pricetag" />
+			<router-link to="baseStation"><Icon type="md-home" /></router-link>
+			<Icon type="md-pricetag"/>
 			<span>name</span>
 			<div class="opra">
 				<Button type="default" ghost> 新增标签 </Button>
@@ -22,45 +22,44 @@
 			    </Anchor>
 			</div>
 			<div class="right">
-				<div class="item">
-					<h5 id="sort"><Icon type="ios-radio-button-on" />标签类别</h5>
-					 <Form :label-width="80">
-					 	<Row >
-					    	<Col :sm="{ span: formSize, offset: 1 }" :lg="{ span: formSize, offset: 2 }">
-					        	<FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-					        </Col>
-					   </Row>
-				    </Form>
-				</div>
-				
-				<div class="item">
-				    <h5 id="other"><Icon type="ios-radio-button-on" />其他标签</h5>
-					<Row>
-					    <Col :sm="{ span: formSize, offset: 1 }" :lg="{ span: formSize, offset: 2 }">
-							<Form :label-width="80">
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						        <FormItem label="性别">
-						            <Input style="width: 250px"></Input>
-						        </FormItem>
-						    </Form>
-					    </Col>
-					</Row>
+				<div class="rightWrap">
+					<div class="item">
+						<h5 id="sort"><Icon type="ios-radio-button-on" />标签类别</h5>
+						 <Form :label-width="80">
+						 	<Row >
+						    	<Col :sm="{ span: formSize, offset: 1 }" :lg="{ span: formSize, offset: 2 }">
+						        	<FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+						        </Col>
+						   </Row>
+					    </Form>
+					</div>
+					
+					<div class="item">
+					    <h5 id="other"><Icon type="ios-radio-button-on" />其他标签</h5>
+						<Row>
+						    <Col :sm="{ span: formSize, offset: 1 }" :lg="{ span: formSize, offset: 2 }">
+								<Form :label-width="80">
+							        <FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+							        <FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+							        <FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+							        <FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+							        <FormItem label="性别">
+							            <Input style="width: 260px"></Input>
+							        </FormItem>
+							    </Form>
+						    </Col>
+						</Row>
+				    </div>
 			    </div>
 			</div>
 		</content>
@@ -95,6 +94,7 @@
 				padding-right: 10px;
 				border-right: 1px solid rgb(77,81,93);
 				cursor: pointer;
+				color:rgb(81,90,110); 
 				&:hover{
 					color: rgb(197,200,206);
 				}
@@ -135,6 +135,9 @@
 		}
 		.item{
 			margin-bottom:35px ;
+		}
+		.rightWrap{
+			max-width: 1100px;
 		}
 		
 	}

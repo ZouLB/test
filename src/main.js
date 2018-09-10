@@ -5,7 +5,6 @@ import VueRouter from 'vue-router';
 import iView from 'iview';
 import '../my-theme/index.less';//自定义主题
 
-import './language/index.js'//语言
 
 Vue.config.productionTip = false
 

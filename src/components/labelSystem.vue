@@ -70,7 +70,7 @@
 			padding: 16px 0;
 		}
 		.character{
-			height: 230px;
+			/*height: 230px;*/
 			overflow: hidden;
 			margin-bottom: 16px;
 		}

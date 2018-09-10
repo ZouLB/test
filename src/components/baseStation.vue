@@ -22,7 +22,7 @@
 		          				<Icon :type="current.indexOf(i)!=-1?'ios-arrow-down':'ios-arrow-forward'" />
 		          			</span>
 		          			<span class="ivu-tree-title" @click="$_showTree(i)">{{v.title}}</span> 
-		          			<draggable v-if="current.indexOf(i)!=-1" class="list-group ivu-tree-children" element="ul" v-model="v.children" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+		          			<draggable v-if="current.indexOf(i)!=-1" class="list-group ivu-tree-children" element="ul" v-model="v.children" :options="dragOptions" @start="isDragging=true" @end="isDragging=false">
 			        			<transition-group type="transition" :name="'flip-list'">
 			          				<li v-for="n in v.children" :key="n.title">
 			          					<span class="ivu-tree-arrow"></span> 
@@ -42,12 +42,16 @@
 		            		<span>基站对象</span>
 		            		<ButtonGroup>
 						        <Button class="refresh">刷新</Button>
-						        <Button @click="$_del">删除</Button>
+						        <Button @click="$_batchDel">删除</Button>
 						        <Button>新增</Button>
 						    </ButtonGroup>
 		            	</div>
 		            	<div class="top-con">
-		            		<Table border size="small" :columns="columns1" :data="data1" @on-selection-change="handleSelectionChange"></Table>
+		            		<draggable element="div" v-model="columns1" :options="dragOptions">
+						        <transition-group name="no" class="tableWrap">
+		            				<Table border size="small" :columns="columns1" :data="data1" :key="1" @on-selection-change="handleSelectionChange"></Table>
+						        </transition-group>
+						    </draggable>
 		            	</div>
 		            </div>
 		            <div slot="bottom" class="demo-split-pane bottom">
@@ -55,16 +59,9 @@
 			                <Button type="default" ghost @click="$_clearCard">清空</Button>
 		            	</div>
 		            	<div class="bot-con">
-		            		<!--<div @click="modelShow=true">
-		            			<Card >
-					                <h4>学历</h4>
-					                <p>=[本科]</p>
-					            </Card>
-		            		</div>-->
-		            		
-		            		<draggable element="div" v-model="list2" :options="dragOptions" :move="onMove" class="cardGroup">
+		            		<draggable element="div" v-model="list2" :options="dragOptions" class="cardGroup">
 						        <transition-group name="no" class="list-group" tag="ul">
-						        	<div v-for="element in list2" :key="element.title" @click="$_showModel(element.title)">
+						        	<div v-for="element in list2" :key="element.title">
 				            			<Card>
 				            				<Icon type="md-close" title="删除" @click.stop="$_delCard(element.title)"/>
 							                <h4>{{element.title}}</h4>
@@ -81,14 +78,14 @@
 	    
 	    <Modal
 	        v-model="modelShow"
-	        title="筛选"
+	        title="批量更新标签值"
 	        draggable
 	        :styles="{top: '250px'}"
 	        width="400"
 	        >
-	        <Form :label-width="40" ref="editForm" v-model="editForm">
-		        <FormItem label="标签">
-		            <Input v-model="editForm.title"></Input>
+	        <Form :label-width="60" ref="editForm" v-model="editForm">
+		        <FormItem label="标签名称">
+		        	<span>{{editForm.title}}</span>
 		        </FormItem>
 		        <FormItem label="值">
 		        	<Select>
@@ -123,13 +120,52 @@
 	    	treeData: [
 	            {
 	                title: '基本属性',
-	                children: [
-	                    {title: '性别'},
-	                    {title: '学历'},
-	                    {title: '省份'},
-	                    {title: '社会角色'},
-	                    {title: '民族'},
-	                ]
+	                children: message.map((title, index) => {
+				        return { 
+				        	title,
+				        	width:150,
+				        	renderHeader: (h, params) => {
+						        return h('div',
+						        [	
+						        	h('span', params.column.title),
+						        	h('Icon', {
+		                                props: {
+		                                    type: 'md-close',
+		                                },
+		                                domProps: {
+		                                    title: '移除'
+		                                },
+		                                on: {
+		                                    click: () => {
+		                                        this.$_delLabel(params.column.title);
+		                                    }
+		                                }
+		                            }),
+						        	h('Icon', {
+		                                props: {
+		                                    type: 'ios-create-outline',
+		                                },
+		                                domProps: {
+		                                    title: '批量更新值'
+		                                },
+		                                on: {
+		                                    click: () => {
+		                                        this.$_showModel(params.column.title);
+		                                    }
+		                                }
+		                            }),
+						        ]
+						        );
+					        }
+				        };
+				    }),
+//	                [
+//	                    {title: '性别'},
+//	                    {title: '学历'},
+//	                    {title: '省份'},
+//	                    {title: '社会角色'},
+//	                    {title: '民族'},
+//	                ]
 	            },
 	            {
 	                title: '经济状况',
@@ -147,35 +183,46 @@
 	        columns1: [
         		{
                     type: 'selection',
-                    width: 80,
+                    width: 60,
                     align: 'center'
                 },
                 {
-                    title: 'Name',
-                    key: 'name',
-                    render: (h, params) => {
-                        return h('div', {
-                            on: {
-                                click: () => {
-                                    this.linkTo(h,params)
-                                }
-                            }
-                        },params.row.name)
-                    }
-                },
-                {
-                    title: 'Age',
-                    key: 'age',
+                    title: '操作',
+                    key: 'action',
+                    width: 90,
+                    align: 'center',
                     render: (h, params) => {
                         return h('div', [
-                            h('Input', {
+                            h('Icon', {
                                 props: {
-                                	type:'text',
-                                    value:params.row.age
+                                    type: 'ios-create-outline',
+                                },
+                                domProps: {
+                                    title: '编辑'
+                                },
+                                style: {
+                                    marginRight: '5px',
+                                    fontSize: "20px"
                                 },
                                 on: {
-                                	'on-change':(event) => {
-                                        console.log(params)
+                                    click: () => {
+                                        this.linkTo(h,params)
+                                    }
+                                }
+                            }),
+                            h('Icon', {
+                                props: {
+                                    type: 'ios-trash-outline'
+                                },
+                                domProps: {
+                                    title: '删除'
+                                },
+                                style: {
+                                    fontSize: "18px"
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$_del(h,params)
                                     }
                                 }
                             }),
@@ -183,33 +230,90 @@
                     }
                 },
                 {
-                    title: '性别',
-                    key: 'address',
-                    render: (h, params) => {
-                        return h('Select',{  
-					        props:{  
-					            value: params.row.sex,  
-					        },  
-					        on: {  
-					            'on-change':(event) => {  
-					            	
-					            }  
-					        },  
-					    },
-                        [
-                            h('Option', {
+                    title: 'Name',
+                    key: 'name',
+                    width:150,
+                    renderHeader: (h, params) => {
+				        return h('div',
+				        [	
+				        	h('span', params.column.title),
+				        	h('Icon', {
                                 props: {
-                                    value: '1',
+                                    type: 'md-close',
+                                },
+                                domProps: {
+                                    title: '移除'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$_delLabel(params.column.title);
+                                    }
                                 }
-                            }, '男'),
-                            h('Option', {
+                            }),
+				        	h('Icon', {
                                 props: {
-                                    value: '2',
+                                    type: 'ios-create-outline',
+                                },
+                                domProps: {
+                                    title: '批量更新值'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$_showModel(params.column.title);
+                                    }
                                 }
-                            }, '女')
-                        ]);
-                    }
-                }
+                            }),
+				        ]
+				        );
+			        }
+                },
+//              {
+//                  title: 'Age',
+//                  key: 'age',
+//                  render: (h, params) => {
+//                      return h('div', [
+//                          h('Input', {
+//                              props: {
+//                              	type:'text',
+//                                  value:params.row.age
+//                              },
+//                              on: {
+//                              	'on-change':(event) => {
+//                                      console.log(params)
+//                                  }
+//                              }
+//                          }),
+//                      ]);
+//                  }
+//              },
+//              {
+//                  title: '性别',
+//                  key: 'sex',
+//                  render: (h, params) => {
+//                      return h('Select',{  
+//					        props:{  
+//					            value: params.row.sex,  
+//					        },  
+//					        on: {  
+//					            'on-change':(event) => {  
+//					            	
+//					            }  
+//					        },  
+//					    },
+//                      [
+//                          h('Option', {
+//                              props: {
+//                                  value: '1',
+//                              }
+//                          }, '男'),
+//                          h('Option', {
+//                              props: {
+//                                  value: '2',
+//                              }
+//                          }, '女')
+//                      ]);
+//                  }
+//              }
             ],
             data1: [
                 {
@@ -259,7 +363,7 @@
 		    editForm:{
 		    	title:'',
 		    	value:''
-		    }
+		    },
 		      
 	    };
 	  },
@@ -270,7 +374,19 @@
 	  	handleSelectionChange(selection) {
 	      	this.tableSelect = selection;
 	    },
-	  	$_del(){
+	    $_del(){
+	    	this.$Modal.confirm({
+                title: '提示',
+                content: '<p>删除后将不能恢复，确认删除<>吗?</p>',
+                onOk: () => {
+                	
+                },
+                onCancel: () => {
+                	
+                }
+           	});
+	    },
+	  	$_batchDel(){
 		    if (this.tableSelect.length == 0) {
 		    	this.$Message.warning('请选择需要删除的对象');
 		        return;
@@ -286,6 +402,13 @@
                 }
            	});
 	  	},
+	  	//移除标签
+	  	$_delLabel(index){
+	  		var tmpIndex = this.columns1.findIndex((item) => {
+	  			return item.title == index
+	  		})
+	  		this.columns1.splice(tmpIndex,1);
+	  	},
 	  	//删除卡片
 	  	$_delCard(index){
 	  		var tmpIndex = this.list2.findIndex((item) => {
@@ -300,6 +423,7 @@
 	  	onMove({ relatedContext, draggedContext }) {
 	      const relatedElement = relatedContext.element;
 	      const draggedElement = draggedContext.element;
+	      console.log(relatedElement,draggedElement)
 	      return (
 	        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
 	      );
@@ -319,6 +443,9 @@
 	   	$_showModel(name){
 	   		this.modelShow=true;
 	   		this.editForm.title = name;
+	   	},
+	   	onEnd(item){
+	   		console.log(item)
 	   	}
 	  },
 	  mounted() {
@@ -347,6 +474,9 @@
 		      this.$nextTick(() => {
 		        this.delayedDragging = false;
 		      });
+		    },
+		    columns1(){
+		    	console.log(this.columns1)
 		    }
 		  }
 	};
@@ -401,11 +531,6 @@
 		background-color: rgb(59,61,71);
 	}
 	.demo-split{
-		/*position: absolute;
-		top: 12px;
-		left: 384px;
-		right: 12px;
-		bottom: 12px;*/
 		background-color: rgb(47,50,59);
 	}
 	.ivu-split-trigger-horizontal{
@@ -418,6 +543,13 @@
 		height: 100%;
 	}
 	
+	.tableWrap{
+		position: absolute;
+		left: 12px;
+		top: 60px;
+		right: 12px;
+		bottom: 12px;
+	}
 	
 	
 	
