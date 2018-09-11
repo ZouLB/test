@@ -164,7 +164,7 @@
 	export default {
 	  data() {
 	    return {
-	    	split1:0.28,
+	    	split1:0.3,
 	    	split:0.65,
 	    	treeData: [
 	            {
@@ -546,134 +546,6 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-	.left{
-		position: absolute;
-		top: 12px;
-		right: 0;
-		bottom: 12px;
-		left: 12px;
-		background-color: rgb(59,61,71);
-		padding: 10px;
-		overflow: auto;
-	}
-	
-	.top{
-		.top-head{
-			padding-bottom:12px;
-			span{
-				color: rgb(178,178,179);
-				font-size: 18px;
-				line-height: 35px;
-				padding-right: 12px;
-			}
-			.ivu-radio-group{
-				position: relative;
-				top: -2px;
-			}
-		}
-		.top-con{
-			table{
-				width: 100%;
-				height: 100%;
-				thead{
-					display: inline-block;
-					white-space:nowrap;
-					width: 100%;
-					height: 40px;
-					background-color: rgb(71,74,86);
-					tr{
-						display: block;
-						position: relative;
-						/*z-index: 3;*/
-						min-width: 100%;
-						height: 350px;
-						background-color: transparent;
-						border: none;
-						
-						th{
-							display: inline-block;
-						}
-					}
-				}
-				.ivu-table-cell{
-					line-height: 39px;
-					width: 150px;
-					&.small-width{
-						width: 90px;
-						text-align: center;
-					}
-					&.xs-width{
-						width: 60px;
-						text-align: center;
-					}
-				}
-				tbody{
-					position: absolute;
-					top: 40px;
-					.cell-edit{
-						position: relative;
-						z-index: 4;
-						width:90px;
-						i{
-							font-size: 20px;
-							padding-left: 4px;
-						}
-					}
-					
-				}
-			}
-			.ivu-table-wrapper{
-				width: 100%;
-				height: 100%;
-			}
-			.ivu-spin-fix{
-				background-color: rgb(87,90,106);
-				
-			}
-		}
-		
-	}
-	.bottom{
-		padding: 24px 12px 12px 12px;
-		.bot-con{
-			padding-top: 12px;
-			position: absolute;
-			top: 69px;
-			left: 12px;
-			right: 12px;
-			bottom: 12px;
-		}
-	}
-	.demo-split-right{
-		position: absolute;
-		top: 12px;
-		left: 12px;
-		right: 12px;
-		bottom: 12px;
-	}
-	.demo-split-pane{
-		background-color: rgb(59,61,71);
-	}
-	.demo-split{
-		background-color: rgb(47,50,59);
-	}
-	.ivu-split-trigger-horizontal{
-		height: 12px;
-	}
-	
-	.cardGroup,
-	.cardGroup>.list-group{
-		width: 100%;
-		height: 100%;
-	}
-	
-	.tableWrap{
-		position: absolute;
-		left: 12px;
-		top: 60px;
-		right: 12px;
-		bottom: 12px;
-	}
 	
 	
 </style>

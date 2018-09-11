@@ -52,49 +52,5 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-	#label-system{
-		width: 100%;
-		height: 100%;
-		min-height: 100vh;
-		background-color: rgb(47,50,59);
-	}
-	.search-bar{
-		padding: 20vh 0;
-	}
-	.ivu-input-group{
-		font-size: 20px;
-	}
-	.ivu-input-group-append{
-		background-color: rgb(23,143,254);
-	}
-	.ivu-card{
-		text-align: center;
-		background-color: rgb(229,229,229);
-		h2{
-			color: #333;
-			font-size: 22px;
-			padding: 14px 0;
-		}
-		.character{
-			/*height: 230px;*/
-			overflow: hidden;
-			margin-bottom: 11px;
-		}
-		img{
-			width: 100%;
-			height: 100%;
-		}
-		p{
-			text-align: right;
-			cursor: pointer;
-			&:hover{
-				color: rgb(23,143,254);
-			}
-		}
-	}
-	.ivu-row-flex-center{
-		padding-bottom: 7vh;
-	}
-	
-	
+
 </style>
