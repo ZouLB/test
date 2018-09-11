@@ -16,13 +16,16 @@ export default {
 
 @import "src/assets/scss/style.scss";
 
+#app{
+	background-color: rgb(47,50,59);
+}
 .child-view{
 	min-width: 1000px;
-	position: absolute;
+	/*position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-	bottom: 0;
+	bottom: 0;*/
 	background-color: rgb(47,50,59);
 }
 

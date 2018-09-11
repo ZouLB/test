@@ -124,7 +124,7 @@
 		bottom: 0;
 		padding: 12px;
 		h5{
-			font: 15px "微软雅黑";
+			font-size: 15px;
 			color: rgb(23,143,254);
 			margin: 15px 0;
 			.ivu-icon{

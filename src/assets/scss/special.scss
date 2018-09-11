@@ -1,3 +1,14 @@
+//对话框垂直居中
+.vertical-center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ivu-modal{
+        top: 0;
+    }
+}
+
 #label-system{
     .ivu-input-group .ivu-input{
         height: 60px;
@@ -5,7 +16,7 @@
         font-size: 15px;
         color: white;
         text-indent: 5px;
-        border-color: #178ffe;
+        border-color: #178ffe;  //函数
     }
     .ivu-input-group-append{
         background-color: rgb(23,143,254);
@@ -27,13 +38,18 @@
 }
 
 #sys-detail{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;   //提取
     .ivu-input-group .ivu-input{
         height: 42px;
         background-color: rgb(71,74,86);
         font-size: 15px;
         color: white;
         text-indent: 5px;
-        border-color: #178ffe;
+        border-color: #178ffe;//函数
     }
     .ivu-tabs-nav-scroll{
         height: 52px;
@@ -72,6 +88,11 @@
 }
 
 #base-station{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     .ivu-split-trigger-vertical{
         width: 12px;
         background-color: rgb(47,50,59);
@@ -131,7 +152,10 @@
         overflow: auto;
     }
     .top{
-//      .ivu-radio-group-button .ivu-radio-wrapper,
+        .ivu-btn-group{
+            position: relative;
+            top: -2px;
+        }
         .ivu-btn-group > .ivu-btn{
             background-color: rgb(64,67,78);
             border-color: rgb(77,81,93);
@@ -141,10 +165,11 @@
                 border-color: #45a5fe;
             }
         }
-//      .ivu-radio-group-button .ivu-radio-wrapper:before, 
-//      .ivu-radio-group-button .ivu-radio-wrapper:after{
-//          background-color: rgb(77,81,93);
-//      }
+        
+        .ivu-table-wrapper{
+            border: none;
+        }
+        
         .ivu-table th{
             background-color: rgb(71,74,86);
             color: rgb(198,198,200);
@@ -154,29 +179,16 @@
         .ivu-table td{
             background-color: rgb(87,90,106);
             color: rgb(198,198,200);
-            .ivu-select-selection,
             .ivu-input{
                 background: transparent;
-                border: none;
                 outline: none;
+                border: none;
                 color: rgb(198,198,200);
-                &:focus{
-                    box-shadow: none;
-                }
-            }
-            .ivu-select-dropdown{
-                background: rgb(71,74,86);
-            }
-            .ivu-select-item{
-                color: rgb(198,198,200);
-            }
-            .ivu-select-item-selected, 
-            .ivu-select-item-selected:hover{
-                color: rgb(23,143,254);
-            }
-            .ivu-select-item-focus,
-            .ivu-select-item:hover{
-                background: transparent;
+                    &:focus{
+                        border: 1px solid rgb(103,106,123);
+                        -webkit-box-shadow:none;
+                        box-shadow: none;
+                    }
             }
             .ivu-icon{
                 cursor: pointer;
@@ -190,12 +202,14 @@
         .ivu-table-wrapper{
             border-color: rgb(103,106,123);
         }
+        .ivu-table-border th:nth-of-type(1),
+        .ivu-table-border td:nth-of-type(1){
+            border-left: 1px solid rgb(103,106,123);
+        }
         .ivu-table-border th{
-            border-bottom:none ;
+//          border-bottom:none ;
+            border-top: 1px solid rgb(103,106,123);
             position: relative;
-//          div{
-//              width: 100%;
-//          }
             &:hover>div i{
                 display: block;
             }
@@ -224,11 +238,10 @@
         }
         .ivu-table:before,
         .ivu-table:after{
-            background-color: rgb(103,106,123);
+            display: none;
+            background-color: transparent;
+//          background-color: rgb(103,106,123);
         }
-//      .ivu-radio-group-button .ivu-radio-wrapper:hover{
-//          color: #45a5fe !important;
-//      }
     }
     .bottom{
         .bot-head{
@@ -282,11 +295,56 @@
         border-bottom: 1px solid #676a7b;
     }
     .ivu-table{
-        background-color: #575a6a;
+        background-color: #3b3d47;
+        overflow: auto;
     }
+    
+    //加载
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    
+    //下拉框
+    .ivu-select-selection,
+    .ivu-input{
+        background: transparent;
+        border: 1px solid rgb(198,198,200);
+        outline: none;
+        color: rgb(198,198,200);
+        margin-right:12px; 
+        margin-top: 17px;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+    .ivu-select-dropdown{
+        background: rgb(71,74,86);
+    }
+    .ivu-select-item{
+        color: rgb(198,198,200);
+    }
+    .ivu-select-item-selected, 
+    .ivu-select-item-selected:hover{
+        color: rgb(23,143,254);
+    }
+    .ivu-select-item-focus,
+    .ivu-select-item:hover{
+        background: transparent;
+    }
+  
 }
 
 #label-cate{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     .ivu-input{
         background-color: rgb(71,74,86);
         border-color: rgb(96,98,114);

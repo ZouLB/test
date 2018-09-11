@@ -107,7 +107,7 @@
 		line-height: 44px;
 	}
 	.ivu-input-group{
-		font: 16px "微软雅黑";
+		font-size: 16px;
 	}
 	.ivu-col-span-2{
 		height: 40px;
@@ -135,7 +135,8 @@
 			width: 50%;
 			padding:12px 20px;
 			h3{
-				font: 18px/40px "微软雅黑";
+				font-size: 18px;
+				line-height: 40px;
 				color: #e8eaec;
 			}
 			p{
@@ -143,7 +144,8 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
-				font: 13px/22px "微软雅黑";
+				font-size: 13px;
+				line-height: 22px;
 				color: #808695;
 			}
 			.operation{
@@ -168,12 +170,13 @@
 		padding: 0 40px;
 		height: 100%;
 		h3{
-			font: 16px/50px "微软雅黑";
+			font-size: 16px;
+			line-height: 50px;
 			color: #e8eaec;
 		}
 		li{
 			display: inline-block;
-			font: 14px "微软雅黑";
+			font-size: 14px;
 			color: rgb(180,181,182);
 			margin-right: 25px;
 			margin-bottom: 15px;

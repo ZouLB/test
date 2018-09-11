@@ -6,15 +6,6 @@
             	<Input size="large"/>
 				<!--<Tree :data="treeData"></Tree>-->
 				
-				<!--<draggable class="list-group" element="ul" v-model="list" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
-			        <transition-group type="transition" :name="'flip-list'">
-			          <li class="list-group-item" v-for="element in list" :key="element.order">
-			            {{element.name}}
-			          </li>
-			        </transition-group>
-			    </draggable>-->
-			    
-			    
 		        <div class="ivu-tree" :key="1">
 		          	<ul class="ivu-tree-children" visible="visible" v-for="(v,i) in treeData">
 		          		<li>
@@ -33,69 +24,77 @@
 		          		</li>
 		          	</ul>
 		        </div>
-			    
             </div>
+            
             <div slot="right" class="demo-split-pane demo-split-right">
                 <Split v-model="split" mode="vertical">
 		            <div slot="top" class="demo-split-pane top">
 		            	<div class="top-head">
 		            		<span>基站对象</span>
 		            		<ButtonGroup>
-						        <Button class="refresh">刷新</Button>
+						        <Button @click="$_refresh">刷新</Button>
 						        <Button @click="$_batchDel">删除</Button>
 						        <Button>新增</Button>
 						    </ButtonGroup>
 		            	</div>
-		            	<div class="top-con">
-		            		<draggable element="div" v-model="columns1" :options="dragOptions">
+		            	<div class="top-con tableWrap">
+		            		<!--<draggable element="div" v-model="columns1" :options="dragOptions">
 						        <transition-group name="no" class="tableWrap">
 		            				<Table border size="small" :columns="columns1" :data="data1" :key="1" @on-selection-change="handleSelectionChange"></Table>
 						        </transition-group>	
-						    </draggable> 
+						    </draggable> -->
 						    
-				        	<!--<div class="ivu-table-wrapper" draggable="false">
+						    <Spin fix v-if="tableLoading">
+				                <Icon type="ios-loading" size=20 class="demo-spin-icon-load"></Icon>
+				                <div>Loading</div>
+				            </Spin>
+						    <div class="ivu-table-wrapper" draggable="false">
 				        		<div class="ivu-table ivu-table-small ivu-table-border">
-				        			<div class="ivu-table-header">
-				        				<table cellspacing="0" cellpadding="0" border="0">
-				        					<colgroup>
-				        						<col width="60"><col width="90"> 
-				        					</colgroup> 
-				        					<thead>
-				        						<tr>
-					        						<th class="ivu-table-column-center">
-					        							<div class="ivu-table-cell ivu-table-cell-with-selection">
-					        								<label class="ivu-checkbox-wrapper ivu-checkbox-wrapper-disabled ivu-checkbox-default"><span class="ivu-checkbox ivu-checkbox-disabled">
-					        									<span class="ivu-checkbox-inner"></span> 
-					        									<input type="checkbox" disabled="disabled" class="ivu-checkbox-input">
-					        									</span> 
-					        								</label>
-					        							</div>
-					        						</th>
-					        						<th class="ivu-table-column-center">
-					        							<div class="ivu-table-cell">
-					        								<span class="">操作</span> 
-					        							</div>
-					        						</th> 
-					        						<draggable  v-model="columns1" :options="dragOptions" class="tableWrap">
-												        <transition-group name="no">
-								            				<th v-for="(v,i) in columns1" :key="i">
-							        							<div class="ivu-table-cell">
-							        								{{v.type}} 
-							        							</div>
-							        						</th> 
-												        </transition-group>	
-												    </draggable> 
-					        					</tr>
-				        					</thead>
-				        					<tbody>
-				        						<tr>
-				        							<td></td>
-				        						</tr>
-				        					</tbody>
-				        				</table>
-				        			</div>  
+			        				<table cellspacing="0" cellpadding="0" border="0">
+			        					<thead>
+			        						<draggable v-model="columns1" :options="dragOptions" element="tr">	
+					            				<th v-for="(v,i) in columns1" :key="i" v-if="v.title">
+				        							<div :class='["ivu-table-cell",v.title=="操作"?"small-width":""]'>
+				        								<span>{{v.title}} </span>
+				        								<Icon v-if="v.title!='操作'" type="md-close" title='移除' @click="$_delLabel(v.title);"/>
+				        								<Icon v-if="v.title!='操作'" type="ios-create-outline" title='批量更新值' @click="$_showModel('update',v.title);"/>
+				        							</div>
+				        						</th>
+				        						<th class="ivu-table-column-center" v-else>
+				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
+				        								<Checkbox></Checkbox>
+				        							</div>
+				        						</th>
+										    </draggable> 
+			        					</thead>
+				        				<!--<tbody>
+				        					<tr>
+				        						<td>
+				        							<div class="ivu-table-cell ivu-table-cell-with-selection cell-edit xs-width">
+				        								<Checkbox></Checkbox>
+				        							</div>
+				        						</td>
+				        						<td>
+				        							<div class="ivu-table-cell cell-edit">
+				        								<Icon type="ios-create-outline" title='编辑' @click="linkTo()"/>
+				        								<Icon type="ios-trash-outline" title='删除' @click="$_del();"/>
+				        							</div>
+				        						</td>
+				        						<td>
+				        							<div class="ivu-table-cell">
+				        								<AutoComplete
+													        v-model="value3"
+													        :data="data3"
+													        :filter-method="filterMethod"
+													        >
+													    </AutoComplete>
+				        							</div>
+				        						</td>
+				        					</tr>
+				        				</tbody>-->
+				        			</table> 
 				        		</div> 
-				        	</div>-->
+				        	</div>
 		            	</div>
 		            </div>
 		            <div slot="bottom" class="demo-split-pane bottom">
@@ -105,11 +104,20 @@
 		            	<div class="bot-con">
 		            		<draggable element="div" v-model="list2" :options="dragOptions" class="cardGroup">
 						        <transition-group name="no" class="list-group" tag="ul">
-			            			<Card v-for="element in list2" :key="element.title">
+						        	<li v-for="(element,i) in list2" :key="i+10" class="clearfix" style="float: left;">
+						        		
+						        	
+						        	<div style="float: left;" v-if="i>0">
+						        		<Select style="width:60px" v-model="check">
+							        		<Option v-for="item in conditions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+							    		</Select>
+						        	</div>
+			            			<Card @click.native="$_showModel('filter',element.title)" >
 			            				<Icon type="md-close" title="删除" @click.stop="$_delCard(element.title)"/>
 						                <h4>{{element.title}}</h4>
 						                <p>=[]</p>
 						            </Card>
+						            </li>
 						        </transition-group>
 						    </draggable>
 		            	</div>
@@ -120,8 +128,8 @@
 	    
 	    <Modal
 	        v-model="modelShow"
-	        title="批量更新标签值"
-	        draggable
+	        :title="editType=='update'?'批量更新标签值':'筛选'"
+	        :class-name="editType=='update'?'':'vertical-center-modal'"
 	        width="400"
 	        >
 	        <Form :label-width="60" ref="editForm" v-model="editForm">
@@ -129,8 +137,8 @@
 		        	<span>{{editForm.title}}</span>
 		        </FormItem>
 		        <FormItem label="值">
-		        	<Select>
-				        <Option v-for="item in cityList" :value="item.value" :key="item.value"></Option>
+		        	<Select v-model="check">
+				        <Option v-for="item in conditions" :value="item.value" :key="item.value"></Option>
 				    </Select>
 		            <!--<Input placeholder=""></Input>-->
 		        </FormItem>
@@ -156,7 +164,7 @@
 	export default {
 	  data() {
 	    return {
-	    	split1:0.3,
+	    	split1:0.28,
 	    	split:0.65,
 	    	treeData: [
 	            {
@@ -200,13 +208,6 @@
 					        }
 				        };
 				    }),
-//	                [
-//	                    {title: '性别'},
-//	                    {title: '学历'},
-//	                    {title: '省份'},
-//	                    {title: '社会角色'},
-//	                    {title: '民族'},
-//	                ]
 	            },
 	            {
 	                title: '经济状况',
@@ -383,10 +384,22 @@
 //              }
             ],
             modelShow:false,
+            editType:'',
             cityList: [
                 {
                     value: 'New York',
                     label: 'New York'
+                }
+            ],
+            check:'and',
+            conditions: [
+            	{
+                    value: 'or',
+                    label: 'or'
+               	},
+               	{
+                    value: 'and',
+                    label: 'and'
                 }
             ],
             tableSelect:[],
@@ -405,11 +418,14 @@
 		    	title:'',
 		    	value:''
 		    },
+		    value3: '',
+            data3: ['true', 'false'],
+            tableLoading:false,
 		      
 	    };
 	  },
 	  methods: {
-	  	linkTo(h,index){
+	  	linkTo(){
 	  		this.$router.push({ path: '/labelCategory' });
 	  	},
 	  	handleSelectionChange(selection) {
@@ -443,6 +459,11 @@
                 }
            	});
 	  	},
+	  	//刷新
+	  	$_refresh(){
+	  		this.tableLoading = true;
+	  	},
+	  	
 	  	//移除标签
 	  	$_delLabel(index){
 	  		var tmpIndex = this.columns1.findIndex((item) => {
@@ -481,13 +502,17 @@
 			}
 	   	},
 	   	//编辑
-	   	$_showModel(name){
+	   	$_showModel(type,name){
 	   		this.modelShow=true;
+	   		this.editType = type;
 	   		this.editForm.title = name;
 	   	},
 	   	onEnd(item){
 	   		console.log(item)
-	   	}
+	   	},
+	   	filterMethod (value, option) {
+            return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+        }
 	  },
 	  mounted() {
 	  	
@@ -516,9 +541,6 @@
 		        this.delayedDragging = false;
 		      });
 		    },
-		    columns1(){
-		    	console.log(this.columns1)
-		    }
 		  }
 	};
 </script>
@@ -549,6 +571,67 @@
 				top: -2px;
 			}
 		}
+		.top-con{
+			table{
+				width: 100%;
+				height: 100%;
+				thead{
+					display: inline-block;
+					white-space:nowrap;
+					width: 100%;
+					height: 40px;
+					background-color: rgb(71,74,86);
+					tr{
+						display: block;
+						position: relative;
+						/*z-index: 3;*/
+						min-width: 100%;
+						height: 350px;
+						background-color: transparent;
+						border: none;
+						
+						th{
+							display: inline-block;
+						}
+					}
+				}
+				.ivu-table-cell{
+					line-height: 39px;
+					width: 150px;
+					&.small-width{
+						width: 90px;
+						text-align: center;
+					}
+					&.xs-width{
+						width: 60px;
+						text-align: center;
+					}
+				}
+				tbody{
+					position: absolute;
+					top: 40px;
+					.cell-edit{
+						position: relative;
+						z-index: 4;
+						width:90px;
+						i{
+							font-size: 20px;
+							padding-left: 4px;
+						}
+					}
+					
+				}
+			}
+			.ivu-table-wrapper{
+				width: 100%;
+				height: 100%;
+			}
+			.ivu-spin-fix{
+				background-color: rgb(87,90,106);
+				
+			}
+		}
+		
 	}
 	.bottom{
 		padding: 24px 12px 12px 12px;
@@ -591,7 +674,6 @@
 		right: 12px;
 		bottom: 12px;
 	}
-	
 	
 	
 </style>

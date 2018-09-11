@@ -52,11 +52,17 @@
 </script>
 
 <style scoped="scoped" lang="scss">
+	#label-system{
+		width: 100%;
+		height: 100%;
+		min-height: 100vh;
+		background-color: rgb(47,50,59);
+	}
 	.search-bar{
-		margin: 105px 0;
+		padding: 20vh 0;
 	}
 	.ivu-input-group{
-		font: 20px "微软雅黑";
+		font-size: 20px;
 	}
 	.ivu-input-group-append{
 		background-color: rgb(23,143,254);
@@ -66,7 +72,7 @@
 		background-color: rgb(229,229,229);
 		h2{
 			color: #333;
-			font: 22px "微软雅黑";
+			font-size: 22px;
 			padding: 14px 0;
 		}
 		.character{
@@ -85,6 +91,9 @@
 				color: rgb(23,143,254);
 			}
 		}
+	}
+	.ivu-row-flex-center{
+		padding-bottom: 7vh;
 	}
 	
 	
