@@ -107,15 +107,15 @@
 				        		<div class="ivu-table ivu-table-small ivu-table-border">
 			        				<table cellspacing="0" cellpadding="0" border="0">
 			        					<thead>
-			        						<draggable v-model="columns1" :options="{group:'people',ghostClass:'ghostLi',dragClass:'dragTh'}" element="tr">	
+			        						<draggable v-model="columns1" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostLi',dragClass:'dragTh',filter:'.ignore-elements'}" element="tr">	
 					            				<th v-for="(v,i) in columns1" :key="i" v-if="v.title">
-				        							<div :class='["ivu-table-cell",v.title=="操作"?"small-width":""]'>
+				        							<div :class='["ivu-table-cell",v.title=="操作"?"small-width ignore-elements":""]'>
 				        								<span>{{v.title}} </span>
 				        								<Icon v-if="v.title!='操作'" type="md-close" title='移除' @click="$_delLabel(v.title);"/>
 				        								<Icon v-if="v.title!='操作'" type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.title);"/>
 				        							</div>
 				        						</th>
-				        						<th class="ivu-table-column-center" v-else>
+				        						<th class="ivu-table-column-center ignore-elements" v-else>
 				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
 				        								<Checkbox></Checkbox>
 				        							</div>
@@ -135,7 +135,7 @@
 				        								<Icon type="ios-trash-outline" title='删除' @click="$_del();"/>
 				        							</div>
 				        						</td>
-				        						<td v-for="v in list2">
+				        						<td>
 				        							<div class="ivu-table-cell">
 				        								<AutoComplete
 													        v-model="value3"
@@ -176,7 +176,7 @@
 						    </draggable>-->
 						    
 					    	<ul class="cardGroup">
-						    	<draggable :list="list2" :options="{group:'people',ghostClass:'ghostCard',dragClass:'dragCard'}" class="cardGroup">
+						    	<draggable :list="list2" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostCard',dragClass:'dragCard'}" class="cardGroup">
 					    			<li v-for="(element,i) in list2" :key="i" class="clearfix left-float" >
 				            			<!--<div class="left-float" v-if="i>0">
 							        		<Select style="width:75px" v-model="check">
@@ -602,12 +602,16 @@
 //		    console.log(evt.relatedContext.index)
 //		    console.log(evt.relatedContext.element)
 //		    console.log(evt.relatedContext.list)
-		    console.log(evt.relatedContext.component.element)
+//		    console.log(evt.relatedContext.component.element)
 		    return (evt.draggedContext.element.name!== 'b')
 		  }
 	  },
 	  mounted() {
-	  	
+	  		//防止拖拽时打开新网页
+            document.body.ondrop = function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
 	  },
 	  components: {
 		　　draggable
