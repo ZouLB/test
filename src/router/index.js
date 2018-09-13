@@ -9,13 +9,11 @@ const labelCategory = resolve => require(['@/components/labelCategory'],resolve)
 Vue.use(Router)
 
 export default new Router({
-routes: [
-
-	{path:'/',redirect:'/labelSystem'},
-	{path:'/labelSystem',component:labelSystem},
-	{path:'/systemDetail',component:systemDetail},
-	{path:'/baseStation',component:baseStation},
-	{path:'/labelCategory',component:labelCategory},
-			
-]
+	routes: [
+		{path:'/',redirect:'/labelSystem'},
+		{path:'/labelSystem',component:labelSystem},
+		{path:'/systemDetail',component:systemDetail},
+		{path:'/baseStation',component:baseStation},
+		{path:'/labelCategory',component:labelCategory},
+	]
 })

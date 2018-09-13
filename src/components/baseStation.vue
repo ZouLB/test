@@ -6,14 +6,21 @@
             	<Input size="large" v-model="search" @on-keyup="$_searchLabel"/>
 				<!--<Tree :data="treeData"></Tree>-->
 				
-		        <div class="ivu-tree">
+		        <!--<div class="ivu-tree">
 		          	<ul v-if="search==''" class="ivu-tree-children" visible="visible" v-for="(v,i) in treeData">
 		          		<li>
 		          			<span class="ivu-tree-arrow" @click="$_showTree(i)">
 		          				<Icon :type="current.indexOf(i)!=-1?'ios-arrow-down':'ios-arrow-forward'" />
 		          			</span>
 		          			<span class="ivu-tree-title" @click="$_showTree(i)">{{v.title}}</span> 
-		          			<draggable v-if="current.indexOf(i)!=-1" class="list-group ivu-tree-children" element="ul" v-model="v.children" :options="dragOptions" @start="isDragging=true" @end="isDragging=false">
+		          			<draggable 
+		          				v-if="current.indexOf(i)!=-1" 
+		          				class="list-group ivu-tree-children" 
+		          				element="ul" 
+		          				v-model="v.children" 
+		          				:options="dragOptions" 
+		          				@start="isDragging=true" 
+		          				@end="isDragging=false">
 			        			<transition-group type="transition" :name="'flip-list'">
 			          				<li v-for="n in v.children" :key="n.title">
 			          					<span class="ivu-tree-arrow"></span> 
@@ -25,13 +32,48 @@
 		          	</ul>
 		          	<ul v-if="search!=''" class="ivu-tree-children no-padding" visible="visible" v-for="(v,i) in treeData">
 		          		<li>
-		          			<draggable class="list-group ivu-tree-children" element="ul" v-model="v.children" :options="dragOptions" @start="isDragging=true" @end="isDragging=false">
+		          			<draggable 
+		          				class="list-group ivu-tree-children" 
+		          				element="ul" 
+		          				v-model="v.children" 
+		          				:options="dragOptions" 
+		          				@start="isDragging=true" 
+		          				@end="isDragging=false">
 			        			<transition-group type="transition" :name="'flip-list'">
 			          				<li v-for="n in v.children" v-if="n.title.indexOf(search)!=-1" :key="n.title">
 			          					<span class="ivu-tree-arrow"></span> 
 			          					<span class="ivu-tree-title">{{n.title}}</span> 
 			          				</li>
 			          			</transition-group>
+			    			</draggable>
+		          		</li>
+		          	</ul>
+		        </div>-->
+		        
+		        <div class="ivu-tree">
+		          	<ul v-if="search==''" class="ivu-tree-children" visible="visible" v-for="(v,i) in treeData">
+		          		<li>
+		          			<span class="ivu-tree-arrow" @click="$_showTree(i)">
+		          				<Icon :type="current.indexOf(i)!=-1?'ios-arrow-down':'ios-arrow-forward'" />
+		          			</span>
+		          			<span class="ivu-tree-title" @click="$_showTree(i)">{{v.title}}</span>
+			    			<ul v-if="current.indexOf(i)!=-1" class="list-group ivu-tree-children" >
+				    			<draggable :list="v.children" class="dragArea" :options="{group:{name:'people', pull:'clone', put:false },ghostClass:'ghostLi',dragClass:'dragLi'}" :move='allow'>
+					                <li v-for="(n,i) in v.children"  :key="i">
+					                    <span class="ivu-tree-arrow"></span> 
+			          					<span class="ivu-tree-title">{{n.title}}</span> 
+					                </li>
+					             </draggable>
+				             </ul>
+		          		</li>
+		          	</ul>
+		          	<ul v-if="search!=''" class="ivu-tree-children no-padding" visible="visible" v-for="(v,i) in treeData">
+		          		<li>
+		          			<draggable v-model="v.children" class="ivu-tree-children" :options="{group:{name:'people', pull:'clone', put:false},ghostClass:'ghostLi',dragClass:'dragLi'}">
+		          				<li v-for="n in v.children" v-if="n.title.indexOf(search)!=-1" :key="n.title">
+		          					<span class="ivu-tree-arrow"></span> 
+		          					<span class="ivu-tree-title">{{n.title}}</span> 
+		          				</li>
 			    			</draggable>
 		          		</li>
 		          	</ul>
@@ -56,6 +98,7 @@
 						        </transition-group>	
 						    </draggable> -->
 						    
+						    
 						    <Spin fix v-if="tableLoading">
 				                <Icon type="ios-loading" size=20 class="demo-spin-icon-load"></Icon>
 				                <div>Loading</div>
@@ -64,12 +107,12 @@
 				        		<div class="ivu-table ivu-table-small ivu-table-border">
 			        				<table cellspacing="0" cellpadding="0" border="0">
 			        					<thead>
-			        						<draggable v-model="columns1" :options="dragOptions" element="tr">	
+			        						<draggable v-model="columns1" :options="{group:'people',ghostClass:'ghostLi',dragClass:'dragTh'}" element="tr">	
 					            				<th v-for="(v,i) in columns1" :key="i" v-if="v.title">
 				        							<div :class='["ivu-table-cell",v.title=="操作"?"small-width":""]'>
 				        								<span>{{v.title}} </span>
 				        								<Icon v-if="v.title!='操作'" type="md-close" title='移除' @click="$_delLabel(v.title);"/>
-				        								<Icon v-if="v.title!='操作'" type="ios-create-outline" title='批量更新值' @click="$_showModel('update',v.title);"/>
+				        								<Icon v-if="v.title!='操作'" type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.title);"/>
 				        							</div>
 				        						</th>
 				        						<th class="ivu-table-column-center" v-else>
@@ -79,7 +122,7 @@
 				        						</th>
 										    </draggable> 
 			        					</thead>
-				        				<!--<tbody>
+				        				<tbody>
 				        					<tr>
 				        						<td>
 				        							<div class="ivu-table-cell ivu-table-cell-with-selection cell-edit xs-width">
@@ -92,18 +135,19 @@
 				        								<Icon type="ios-trash-outline" title='删除' @click="$_del();"/>
 				        							</div>
 				        						</td>
-				        						<td>
+				        						<td v-for="v in list2">
 				        							<div class="ivu-table-cell">
 				        								<AutoComplete
 													        v-model="value3"
 													        :data="data3"
 													        :filter-method="filterMethod"
+													        @on-blur="$_changeVal"
 													        >
 													    </AutoComplete>
 				        							</div>
 				        						</td>
 				        					</tr>
-				        				</tbody>-->
+				        				</tbody>
 				        			</table> 
 				        		</div> 
 				        	</div>
@@ -114,7 +158,7 @@
 			                <Button type="default" ghost @click="$_clearCard">清空</Button>
 		            	</div>
 		            	<div class="bot-con">
-		            		<draggable element="div" v-model="list2" :options="dragOptions" class="cardGroup">
+		            		<!--<draggable element="div" v-model="list2" :options="dragOptions" class="cardGroup">
 						        <transition-group name="no" class="list-group" tag="ul">
 						        	<li v-for="(element,i) in list2" :key="i" class="clearfix left-float" >
 							        	<div class="left-float" v-if="i>0">
@@ -127,9 +171,26 @@
 							                <h4>{{element.title}}</h4>
 							                <p>=[]</p>
 							            </Card>
-						            </li>
+						           </li>
 						        </transition-group>
-						    </draggable>
+						    </draggable>-->
+						    
+					    	<ul class="cardGroup">
+						    	<draggable :list="list2" :options="{group:'people',ghostClass:'ghostCard',dragClass:'dragCard'}" class="cardGroup">
+					    			<li v-for="(element,i) in list2" :key="i" class="clearfix left-float" >
+				            			<!--<div class="left-float" v-if="i>0">
+							        		<Select style="width:75px" v-model="check">
+								        		<Option v-for="item in conditions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+								    		</Select>
+							        	</div>-->
+				            			<Card @click.native.stop="$_showModel('filter',element.title)">
+				            				<Icon type="md-close" title="删除" @click.stop="$_delCard(element.title)"/>
+							                <h4>{{element.title}}</h4>
+							                <p>=[]</p>
+							            </Card>
+					           		</li>
+					        	</draggable>
+					    	</ul>
 		            	</div>
 		            </div>
 		        </Split>
@@ -409,9 +470,9 @@
 		        return { name, order: index + 1, fixed: false };
 		    }),
 		    list2: [],
-		    editable: true,
-		    isDragging: false,
-		    delayedDragging: false,
+//		    editable: true,
+//		    isDragging: false,
+//		    delayedDragging: false,
 		      
 		    current:[0,1,2],
 		    editForm:{
@@ -522,7 +583,28 @@
        	},
        	$_searchLabel(){
 //     		console.log(this.search)
-       	}
+       	},
+       	$_changeVal(){
+//     		this.$Modal.confirm({
+//              title: 'Title',
+//              content: '<p>是否保存更改</p>',
+//              onOk: () => {
+//                  this.$Message.info('Clicked ok');
+//              },
+//              onCancel: () => {
+//              }
+//          });
+      	},
+      	allow(evt) {
+//		    console.log(evt.draggedContext.index)
+//		    console.log(evt.draggedContext.element)
+//		    console.log(evt.draggedContext.futureIndex)
+//		    console.log(evt.relatedContext.index)
+//		    console.log(evt.relatedContext.element)
+//		    console.log(evt.relatedContext.list)
+		    console.log(evt.relatedContext.component.element)
+		    return (evt.draggedContext.element.name!== 'b')
+		  }
 	  },
 	  mounted() {
 	  	
@@ -531,26 +613,26 @@
 		　　draggable
 		},
 		computed: {
-		    dragOptions() {
-		      return {
-		        animation: 0,
-//		        group: "description",
-		        group:{name:'description', pull:'clone'},
-		        disabled: !this.editable,
-		        ghostClass: "ghost"
-		      };
-		    },
+//		    dragOptions() {
+//		      return {
+//		        animation: 0,
+////		        group: "description",
+//		        group:{name:'people', pull:'clone'},
+//		        disabled: !this.editable,
+//		        ghostClass: "ghost"
+//		      };
+//		    },
 		  },
 		  watch: {
-		    isDragging(newValue) {
-		      if (newValue) {
-		        this.delayedDragging = true;
-		        return;
-		      }
-		      this.$nextTick(() => {
-		        this.delayedDragging = false;
-		      });
-		    },
+//		    isDragging(newValue) {
+//		      if (newValue) {
+//		        this.delayedDragging = true;
+//		        return;
+//		      }
+//		      this.$nextTick(() => {
+//		        this.delayedDragging = false;
+//		      });
+//		    },
 		  }
 	};
 </script>

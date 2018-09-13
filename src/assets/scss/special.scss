@@ -19,6 +19,11 @@
         max-width: 1080px;
         margin: 0 auto;
     }
+    .ivu-col-span-18{
+        float: inherit;
+        margin: 0 auto;
+        min-width: 682px;
+    }
     .search-bar{
         padding: 20vh 0;
     }
@@ -197,6 +202,10 @@
         .ivu-input{
             height: 48px;
         }
+        .dragLi{
+            padding: 6px 0;
+            border: 1px dashed $main-color;
+        }
     }
     
     .top{
@@ -271,6 +280,23 @@
                 
             }
         }
+        .ghostLi{
+            display: inline-block;
+            width: 150px;
+            height: 39px;
+            font-size: 14px;
+            line-height: 39px;
+            color: $font-color1;
+            background-color: $bg-color2;
+            border: 1px dashed $main-color;
+        }
+        .ghostCard{
+            display: none;
+        }
+        .dragTh{
+            border:1px dashed $main-color;
+        }
+        
         
     }
     .bottom{
@@ -281,8 +307,12 @@
         }
         .bot-con{
             padding-top: 12px;
-            @include absolute(69px,12px,12px,12px);
+//          @include absolute(69px,12px,12px,12px);
+            @include absolute(57px,0,0,0);
         }
+        .ivu-select-selection{
+            background-color: $bg-color2;    
+        }   
         .ivu-card{
             width: 150px;
             background-color: $bg-color2;
@@ -290,7 +320,8 @@
             color: $font-color2;
             cursor: pointer;
             float: left;
-            margin: 0 17px 12px 0;
+//          margin: 0 17px 12px 0;
+            margin: 12px;
             .ivu-card-body{
                 padding: 10px;
                 position: relative;
@@ -305,16 +336,39 @@
                     right: 2px;
                     &:hover{
                         color: $main-color;
+                        cursor: pointer;
                     }
                 }
             }
             &:hover{
                 border-color: #808695;
+                cursor: move;
+                cursor: grab;
+                cursor: -moz-grab;
+                cursor: -webkit-grab;
                 .ivu-icon-md-close{
                     display: block;
                 }
             }
         }
+        .ghostLi{
+            display: inline-block;
+            width: 150px;
+            height: 67px;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+            text-indent: -11px;
+            background-color: $bg-color2;
+            border:1px dashed $main-color;
+            border-radius: 4px;
+            color: $font-color2;
+            margin: 12px;
+        }
+        .ghostCard,.dragCard{
+            border:1px dashed $main-color;
+        }
+        
     }
     .demo-split-right{
         @include absolute(12px,12px,12px,12px);

@@ -1,13 +1,13 @@
 <template>
 	<div id="label-system">
 		<Row class="search-bar">
-	        <Col span="14" offset="5">
+	        <Col span="18">
 	        	<Input search icon="ios-search" enter-button="搜索" placeholder="输入关键字搜索..." @on-search="$_search"/>
 	        </Col>
 	   </Row>
 	   	
 	   	<Row type="flex" justify="center">
-	        <Col :xs="10">
+	        <Col :xs="10" >
 	            <Card class="clearfix">
 	            	<div>
 	            		<h2>移动基站</h2>
@@ -30,6 +30,47 @@
 	            </Card>
 	        </Col>
 	    </Row>
+	    
+	    <!--<div class="content clearfix">
+	    	<Card class="clearfix">
+	        	<div>
+	        		<h2>移动基站</h2>
+	        		<div class="character">
+	            		<img src="../assets/img/1.png"/>
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	        </Card>
+	        <Card class="clearfix">
+	        	<div>
+	        		<h2>移动基站</h2>
+	        		<div class="character">
+	            		<img src="../assets/img/1.png"/>
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	        </Card>
+	        <Card class="clearfix">
+	        	<div>
+	        		<h2>移动基站</h2>
+	        		<div class="character">
+	            		<img src="../assets/img/1.png"/>
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	        </Card>
+	        <Card class="clearfix">
+	        	<div>
+	        		<h2>移动基站</h2>
+	        		<div class="character">
+	            		<img src="../assets/img/1.png"/>
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	        </Card>
+	        
+	    </div>-->
+	    
 	</div>
 </template>
 
@@ -52,5 +93,14 @@
 </script>
 
 <style lang="scss">
-
+	.content{
+		max-width: 1080px;
+		margin: 0 auto;
+		.ivu-card{
+			width: 320px;
+			height: 240px;
+			float: left;
+			margin: 20px;
+		}
+	}
 </style>
