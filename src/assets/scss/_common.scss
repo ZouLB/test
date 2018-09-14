@@ -34,6 +34,9 @@
     color: $font-color2;
     ul.ivu-tree-children li{
         margin: 18px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         &:hover,
         &:hover span{
             cursor: pointer;

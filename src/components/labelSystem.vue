@@ -7,10 +7,10 @@
 	   </Row>
 	   	
 	   	<Row type="flex" justify="center">
-	        <Col :xs="10" >
-	            <Card class="clearfix">
+	        <Col v-for="(item,index) in tagsEntity" v-if="index<2" :xs="10" :offset="index>0?'1':'0'" :key="index">
+	            <Card class="clearfix" @click.native="$_toBase(item.id)">
 	            	<div>
-	            		<h2>移动基站</h2>
+	            		<h2>{{item.name}}</h2>
 	            		<div class="character">
 		            		<img src="../assets/img/1.png"/>
 	            		</div>
@@ -18,7 +18,7 @@
 	            	</div>
 	            </Card>
 	        </Col>
-	        <Col :xs="{ span: 10, offset: 1 }">
+	        <!--<Col :xs="10" offset="1">
 	            <Card>
 	                <div>
 	            		<h2>移动基站</h2>
@@ -28,67 +28,50 @@
 	                	<p>精确检索</p>
 	            	</div>
 	            </Card>
-	        </Col>
+	        </Col>-->
 	    </Row>
-	    
-	    <!--<div class="content clearfix">
-	    	<Card class="clearfix">
-	        	<div>
-	        		<h2>移动基站</h2>
-	        		<div class="character">
-	            		<img src="../assets/img/1.png"/>
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	        </Card>
-	        <Card class="clearfix">
-	        	<div>
-	        		<h2>移动基站</h2>
-	        		<div class="character">
-	            		<img src="../assets/img/1.png"/>
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	        </Card>
-	        <Card class="clearfix">
-	        	<div>
-	        		<h2>移动基站</h2>
-	        		<div class="character">
-	            		<img src="../assets/img/1.png"/>
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	        </Card>
-	        <Card class="clearfix">
-	        	<div>
-	        		<h2>移动基站</h2>
-	        		<div class="character">
-	            		<img src="../assets/img/1.png"/>
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	        </Card>
-	        
-	    </div>-->
 	    
 	</div>
 </template>
 
 <script>
+	import { getEntity } from '../assets/api/api';
+
 	export default {
-	  data() {
-	    return {
-	    	
-	    };
-	  },
-	  methods: {
-	  	$_search(){
-	  		this.$router.push({ path: '/systemDetail' });
-	  	}
-	  },
-	  mounted() {
-	  	
-	  },
+		data() {
+			return {
+				tagsEntity:[]
+			};
+		},
+		methods: {
+			$_search() {
+				this.$router.push({
+					path: '/systemDetail'
+				});
+			},
+			$_toBase(id) {
+				this.$router.push({
+					path: '/baseStation/'+id
+				});
+			}
+		},
+		mounted() {
+			this.$Loading.start();
+			getEntity().then((res)=>{
+				if(res&&res.details){
+//					console.log(res);
+					this.tagsEntity = res.details.data;
+            		this.$Loading.finish();
+				}else{
+					this.$Loading.error();
+					this.$Message.error(res.message);
+				}
+            })
+            .catch((err) => {
+            	this.$Loading.error();
+            	this.$Message.error(err.message);
+            });
+		},
 	};
 </script>
 

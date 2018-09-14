@@ -10,16 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
-//  proxyTable: {
-//    '/base/': {
-//      target:'http://10.200.202.36:8080',
-//      changeOrigin: true,
-//      pathRewrite: {
-//        '^/base': ''
-//      }
-//    }
-//  },
+//  proxyTable: {},
+    proxyTable: {
+      '/tag/': {
+        target:'http://10.201.76.174:8081/datalake/api/daasTag',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tag': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

@@ -13,7 +13,7 @@ export default new Router({
 		{path:'/',redirect:'/labelSystem'},
 		{path:'/labelSystem',component:labelSystem},
 		{path:'/systemDetail',component:systemDetail},
-		{path:'/baseStation',component:baseStation},
+		{path:'/baseStation/:id',component:baseStation},
 		{path:'/labelCategory',component:labelCategory},
 	]
 })
