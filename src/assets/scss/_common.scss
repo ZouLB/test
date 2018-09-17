@@ -228,7 +228,7 @@
         border: none;
         color: $font-color2;
         &:focus{
-            border: 1px solid rgb(103,106,123);
+            border: 1px solid $table-border;
             -webkit-box-shadow:none;
             box-shadow: none;
         }
@@ -243,14 +243,14 @@
 .ivu-table-border th, 
 .ivu-table-border td,
 .ivu-table-wrapper{
-    border-color: rgb(103,106,123);
+    border-color: $table-border;
 }
 .ivu-table-border th:nth-of-type(1),
 .ivu-table-border td:nth-of-type(1){
-    border-left: 1px solid rgb(103,106,123);
+    border-left: 1px solid $table-border;
 }
 .ivu-table-border th{
-    border-top: 1px solid rgb(103,106,123);
+    border-top: 1px solid $table-border;
     position: relative;
     &:hover>div i{
         display: block;

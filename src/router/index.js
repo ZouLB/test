@@ -14,6 +14,6 @@ export default new Router({
 		{path:'/labelSystem',component:labelSystem},
 		{path:'/systemDetail',component:systemDetail},
 		{path:'/baseStation/:id',component:baseStation},
-		{path:'/labelCategory',component:labelCategory},
+		{path:'/labelCategory/:id',component:labelCategory},
 	]
 })

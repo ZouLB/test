@@ -17,8 +17,7 @@
 				    			<draggable 
 				    				:list="v.children" 
 				    				class="dragArea" 
-				    				:options="{group:{name:'people', pull:'clone', put:false },ghostClass:'ghostLi',dragClass:'dragLi'}" 
-				    				:move='allow'>
+				    				:options="{group:{name:'people', pull:'clone', put:false },ghostClass:'ghostLi',dragClass:'dragLi'}">
 					                <li v-for="(n,i) in v.children"  :key="i">
 					                    <span class="ivu-tree-arrow"></span> 
 			          					<span class="ivu-tree-title">{{n.name}}</span> 
@@ -65,32 +64,61 @@
 				        		<div class="ivu-table ivu-table-small ivu-table-border">
 			        				<table cellspacing="0" cellpadding="0" border="0">
 			        					<thead>
-			        						<draggable v-model="columns" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostLi',dragClass:'dragTh',filter:'.ignore-elements'}" element="tr">	
-					            				
-				        						<!--<th class="ignore-elements">
-				        							<div class='ivu-table-cell small-width'>
-				        								<span>操作</span>
-				        							</div>
-				        						</th>-->
-					            				
-					            				<th v-for="(v,i) in columns" :key="i" v-if="v.name">
-				        							<div :class='["ivu-table-cell",v.name=="操作"?"small-width ignore-elements":""]'>
-				        								<span>{{v.name}} </span>
-				        								<Icon v-if="v.name!='操作'" type="md-close" title='移除' @click="$_delLabel(v.name);"/>
-				        								<Icon v-if="v.name!='操作'" type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.name);"/>
-				        							</div>
-				        						</th>
-				        						
-				        						<th class="ivu-table-column-center ignore-elements" v-else>
+			        						<th class="ivu-table-column-center ignore-elements">
 				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
 				        								<Checkbox></Checkbox>
 				        							</div>
 				        						</th>
 				        						
+				        						<th class="ivu-table-column-center ignore-elements">
+				        							<div class='ivu-table-cell small-width'>
+				        								<span>操作</span>
+				        							</div>
+				        						</th>	
+			        						<draggable v-model="columns" :move="$_onMoved" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostLi',dragClass:'dragTh',filter:'.ignore-elements'}" element="tr">	
+					            				
+					            				<!--<th v-for="v in test" class="ivu-table-column-center ignore-elements">
+				        							<div v-if="v.type=='selection'" class="ivu-table-cell ivu-table-cell-with-selection xs-width">
+				        								<Checkbox></Checkbox>
+				        							</div>
+				        							<div class='ivu-table-cell small-width' v-else>
+				        								<span>操作</span>
+				        							</div>
+				        						</th>-->
+					            				<!--<th class="ivu-table-column-center ignore-elements">
+				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
+				        								<Checkbox></Checkbox>
+				        							</div>
+				        						</th>
+				        						
+				        						<th class="ivu-table-column-center ignore-elements">
+				        							<div class='ivu-table-cell small-width'>
+				        								<span>操作</span>
+				        							</div>
+				        						</th>-->
+				        						
+				        						<th v-for="(v,i) in columns" :key="i">
+				        							<div class="ivu-table-cell">
+				        								<span>{{v.name}} </span>
+				        								<Icon type="md-close" title='移除' @click="$_delLabel(v.name);"/>
+				        								<Icon type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.name);"/>
+				        							</div>
+				        						</th>
+				        						
+					            				<!--<th v-for="(v,i) in columns" :key="i" v-if="v.name">
+				        							<div :class='["ivu-table-cell",v.name=="操作"?"small-width ignore-elements":""]'>
+				        								<span>{{v.name}} </span>
+				        								<Icon v-if="v.name!='操作'" type="md-close" title='移除' @click="$_delLabel(v.name);"/>
+				        								<Icon v-if="v.name!='操作'" type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.name);"/>
+				        							</div>
+				        						</th>-->
+				        						
+				        						
+				        						
 										    </draggable> 
 			        					</thead>
-				        				<!--<tbody>
-				        					<tr>
+				        				<tbody>
+				        					<tr v-for="(row,index) in data" :key="index">
 				        						<td>
 				        							<div class="ivu-table-cell ivu-table-cell-with-selection cell-edit xs-width">
 				        								<Checkbox></Checkbox>
@@ -102,23 +130,24 @@
 				        								<Icon type="ios-trash-outline" title='删除' @click="$_del();"/>
 				        							</div>
 				        						</td>
-				        						<td class="input-td">
+				        						<td class="input-td" v-for="(item,i) in row" :key="i">
 				        							<div class="ivu-table-cell">
 				        								<AutoComplete
-													        v-model="value3"
+													        v-model="row[i]"
 													        :data="data3"
 													        clearable
 													        @on-search="handleSearch"
-													        @on-focus="$_saveOldVal(value3)"
-													        @on-select="$_changeVal1"
-													        @on-blur="$_changeVal(value3)"
-													        @keyup.native.enter="$_changeVal(value3)"
+													        @on-focus="$_saveOldVal(row[i])"
+													        @on-select="$_changeVal1(row[i])"
+													        @on-blur="$_changeVal(row[i],index,i)"
+													        @keyup.native.enter="$_changeVal(row[i])"
 													        >
 													    </AutoComplete>
 				        							</div>
 				        						</td>
+				        						
 				        					</tr>
-				        				</tbody>-->
+				        				</tbody>
 				        			</table> 
 				        		</div> 
 				        	</div>
@@ -211,11 +240,11 @@
 	    	split:0.65,
 	    	treeData: [],
 	        columns: [
-        		{ type: 'selection' },
-                { name: '操作' },
+//				{ type: 'selection' },
+//              { name: '操作' },
             ],
             paramsId:'',
-            data1: [],
+            data: [["test1","false","0"],["test2","false","0"],["test3","false","0"]],
             modelShow:false,
             editType:'',
             check:'and',
@@ -262,7 +291,7 @@
 	  },
 	  methods: {
 	  	linkTo(){
-	  		this.$router.push({ path: '/labelCategory' });
+	  		this.$router.push({ path: '/labelCategory'+id });
 	  	},
 	  	handleSelectionChange(selection) {
 	      	this.tableSelect = selection;
@@ -299,13 +328,19 @@
 	  	$_refresh(){
 //	  		this.tableLoading = true;
 	  		this.tableLoading = !this.tableLoading;
-	  		console.log(this.columns)
 	  		let para = {
-	  			entityId:this.paramsId
+	  			entityId:this.paramsId,
+	  			primaryKey:"1600010605799",
+//	  			columnNames:[],
+//	  			where:'1=1'
 	  		}
+	  		console.log(this.columns);
+//	  		for(let i=2;i<this.columns.length;i++){
+//		  		para.columnNames.push(this.columns[i].name);
+//	  		}
 	  		console.log(para)
-	  		console.log(JSON.stringify(para))
-	  		searchTags(JSON.stringify(para)).then((res)=>{
+//	  		console.log(JSON.stringify(para))
+	  		searchTags(para).then((res)=>{
 //				if(res&&res.details){
 //					console.log(res.details);
 //				}else{
@@ -322,14 +357,14 @@
 	  	//移除标签
 	  	$_delLabel(index){
 	  		var tmpIndex = this.columns.findIndex((item) => {
-	  			return item.title == index
+	  			return item.name == index
 	  		})
 	  		this.columns.splice(tmpIndex,1);
 	  	},
 	  	//删除卡片
 	  	$_delCard(index){
 	  		var tmpIndex = this.list2.findIndex((item) => {
-	  			return item.title == index
+	  			return item.name == index
 	  		})
 	  		this.list2.splice(tmpIndex,1);
 	  	},
@@ -363,21 +398,41 @@
 	   		this.editForm.title = name;
 	   	},
        	handleSearch (value) {
-            this.data3 = !value ? [] : [value,'是','否'];
+            this.data3 = !value ? [] : ['是','否'];
         },
        	$_saveOldVal(oldval){
        		this.tmpVal = oldval;
        	},
-       	$_changeVal(val){
+       	$_changeVal(val,i,j){
        		if(val&&this.tmpVal != val){
        			this.$Modal.confirm({
 	                title: '系统提示',
 	                content: '<p>确定修改吗？</p>',
 	                onOk: () => {
+	                	let para = {
+				  			entityId:this.paramsId,
+				  			primaryKey:"799003fd-1ff0-4808-b4b1-2b81793518f2",
+				  			columnNames:"区域",
+			//	  			where:''
+				  		}
+				  		changeTags(para).then((res)=>{
+			//				if(res&&res.details){
+			//					console.log(res.details);
+			//				}else{
+			//					this.$Message.error(res.message);
+			//				}
+							console.log(res)
+			            })
+			            .catch((err) => {
+			            	console.log(err)
+			            	this.$Message.error(err.message);
+			            });
+	                	
 	                    this.$Message.success('修改成功');
 	                },
 	                onCancel: () => {
-	                	this.value3 = this.tmpVal;
+	                	this.data[i][j] = this.tmpVal;
+	                	console.log(this.data)
 	                }
 	            });
        		}
@@ -399,10 +454,10 @@
 	            });
       		}
       	},
-      	allow(evt) {
-//		    console.log(evt.relatedContext.component.element)
-		    return (evt.draggedContext.element.name!== 'b')
-		  	}
+      	$_onMoved(evt){
+      		console.log(this.columns)
+      		console.log(evt.draggedContext.index,evt.relatedContext.index)
+      	}
 	  	},
 	  	mounted() {
             this.$Loading.start();
@@ -458,5 +513,23 @@
 </script>
 
 <style lang="scss">
+	.left-indent{
+		position: relative;
+		left: -3px;
+	}
+	/*tr th:nth-of-type(1){
+		display: inherit;
+		position: absolute;
+		left: 0;
+	}
+	tr th:nth-of-type(2){
+		position: absolute;
+		left:62px;
+		margin-right: 154px;
+	}*/
+	/*tr th:nth-of-type(1){*/
+		/*margin-left: 152px;*/
+	/*}*/
+	
 	
 </style>

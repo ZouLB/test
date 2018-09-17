@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
 //  proxyTable: {},
     proxyTable: {
-      '/tag/': {
+      '/tag': {
         target:'http://10.201.76.174:8081/datalake/api/daasTag',
         changeOrigin: true,
         pathRewrite: {

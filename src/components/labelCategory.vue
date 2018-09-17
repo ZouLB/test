@@ -90,11 +90,15 @@
 </template>
 
 <script>
+
+	import { getTags} from '../assets/api/api';
+	
 	export default {
 	  data() {
 	    return {
 	    	formSize:'12',
 	    	addShow:false,
+	    	paramsId:''
 	    };
 	  },
 	  methods: {
@@ -103,7 +107,23 @@
 	  	}
 	  },
 	  mounted() {
-	  	
+	  	this.$Loading.start();
+        
+        this.paramsId = this.$route.params.id;
+		getTags({type:'tenant',tagEntityId:this.paramsId}).then((res)=>{
+			if(res&&res.details&&res.details.data){
+				console.log(res.details.data[0].children);
+//				this.treeData = res.details.data[0].children;
+        		this.$Loading.finish();
+			}else{
+				this.$Loading.error();
+				this.$Message.error(res.message);
+			}
+        })
+        .catch((err) => {
+        	this.$Loading.error();
+        	this.$Message.error(err.message);
+        });
 	  },
 	};
 </script>
