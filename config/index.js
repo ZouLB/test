@@ -6,6 +6,7 @@ const path = require('path')
 
 module.exports = {
   dev: {
+  	env: require('./dev.env'),
 
     // Paths
     assetsSubDirectory: 'static',
@@ -13,7 +14,7 @@ module.exports = {
 //  proxyTable: {},
     proxyTable: {
       '/tag': {
-        target:'http://10.201.76.174:8081/datalake/api/daasTag',
+        target:'http://10.201.76.174:8081/',
         changeOrigin: true,
         pathRewrite: {
           '^/tag': ''
@@ -22,7 +23,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

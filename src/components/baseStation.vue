@@ -4,7 +4,6 @@
 	    <Split v-model="split1">
             <div slot="left" class="demo-split-pane left">
             	<Input size="large" v-model="search" clearable/>
-				<!--<Tree :data="treeData"></Tree>-->
 				
 		        <div class="ivu-tree">
 		          	<ul v-if="search==''" class="ivu-tree-children" visible="visible" v-for="(v,i) in treeData">
@@ -65,38 +64,18 @@
 			        				<table cellspacing="0" cellpadding="0" border="0">
 			        					<thead>
 			        						<th class="ivu-table-column-center ignore-elements">
-				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
-				        								<Checkbox></Checkbox>
-				        							</div>
-				        						</th>
-				        						
-				        						<th class="ivu-table-column-center ignore-elements">
-				        							<div class='ivu-table-cell small-width'>
-				        								<span>操作</span>
-				        							</div>
-				        						</th>	
-			        						<draggable v-model="columns" :move="$_onMoved" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostLi',dragClass:'dragTh',filter:'.ignore-elements'}" element="tr">	
+			        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
+			        								<Checkbox></Checkbox>
+			        							</div>
+			        						</th>
+			        						
+			        						<th class="ivu-table-column-center ignore-elements">
+			        							<div class='ivu-table-cell small-width'>
+			        								<span>操作</span>
+			        							</div>
+			        						</th>	
+			        						<draggable v-model="columns" :move="$_onMoved" @add="$_addColumn" :options="{group:{name:'people', pull:'clone'},ghostClass:'ghostLi',dragClass:'dragTh',filter:'.ignore-elements'}" element="tr">	
 					            				
-					            				<!--<th v-for="v in test" class="ivu-table-column-center ignore-elements">
-				        							<div v-if="v.type=='selection'" class="ivu-table-cell ivu-table-cell-with-selection xs-width">
-				        								<Checkbox></Checkbox>
-				        							</div>
-				        							<div class='ivu-table-cell small-width' v-else>
-				        								<span>操作</span>
-				        							</div>
-				        						</th>-->
-					            				<!--<th class="ivu-table-column-center ignore-elements">
-				        							<div class="ivu-table-cell ivu-table-cell-with-selection xs-width">
-				        								<Checkbox></Checkbox>
-				        							</div>
-				        						</th>
-				        						
-				        						<th class="ivu-table-column-center ignore-elements">
-				        							<div class='ivu-table-cell small-width'>
-				        								<span>操作</span>
-				        							</div>
-				        						</th>-->
-				        						
 				        						<th v-for="(v,i) in columns" :key="i">
 				        							<div class="ivu-table-cell">
 				        								<span>{{v.name}} </span>
@@ -112,13 +91,10 @@
 				        								<Icon v-if="v.name!='操作'" type="ios-create-outline" title='批量更新值' @click.stop="$_showModel('update',v.name);"/>
 				        							</div>
 				        						</th>-->
-				        						
-				        						
-				        						
 										    </draggable> 
 			        					</thead>
 				        				<tbody>
-				        					<tr v-for="(row,index) in data" :key="index">
+				        					<tr v-for="(row,index) in data" :key="index" v-if="index<10">
 				        						<td>
 				        							<div class="ivu-table-cell ivu-table-cell-with-selection cell-edit xs-width">
 				        								<Checkbox></Checkbox>
@@ -126,26 +102,32 @@
 				        						</td>
 				        						<td>
 				        							<div class="ivu-table-cell cell-edit">
-				        								<Icon type="ios-create-outline" title='编辑' @click="linkTo()"/>
-				        								<Icon type="ios-trash-outline" title='删除' @click="$_del();"/>
+				        								<Icon type="ios-create-outline" title='编辑' @click.native="linkTo(row)"/>
+				        								<Icon type="ios-trash-outline" title='删除' @click="$_del(row.PID);"/>
 				        							</div>
 				        						</td>
-				        						<td class="input-td" v-for="(item,i) in row" :key="i">
+				        						<td class="input-td" v-for="(item,key,i) in columns" :key="i">
 				        							<div class="ivu-table-cell">
-				        								<AutoComplete
+				        								<!--<AutoComplete
 													        v-model="row[i]"
-													        :data="data3"
-													        clearable
 													        @on-search="handleSearch"
 													        @on-focus="$_saveOldVal(row[i])"
 													        @on-select="$_changeVal1(row[i])"
 													        @on-blur="$_changeVal(row[i],index,i)"
-													        @keyup.native.enter="$_changeVal(row[i])"
-													        >
-													    </AutoComplete>
+													        @keyup.native.enter="$_changeVal(row[i])">
+													        <div class="demo-auto-complete-item" v-if="!row[i]">
+													            <Option v-for="(v,i) in data3" :value="v" :key="i">{{v}}
+													            </Option>
+													        </div>
+													    </AutoComplete>-->
+													    <Input
+													    	v-model="row[item.code]"
+													    	@on-search="handleSearch"
+													        @on-focus="$_saveOldVal(row[item.code])"
+													        @on-blur="$_changeVal(row[item.code],row.PID,item.code)"
+													        @keyup.native.enter="$_changeVal(row[item.code],row.PID,item.code)"/>
 				        							</div>
 				        						</td>
-				        						
 				        					</tr>
 				        				</tbody>
 				        			</table> 
@@ -223,7 +205,7 @@
 	
 	import draggable from 'vuedraggable'
 	
-	import { getTags, changeTags, searchTags } from '../assets/api/api';
+	import { getTags, changeTags, searchTags, deleteObject } from '../assets/api/api';
 	
 	const message = [
 	  "性别",
@@ -239,25 +221,12 @@
 	    	split1:0.26,
 	    	split:0.65,
 	    	treeData: [],
-	        columns: [
-//				{ type: 'selection' },
-//              { name: '操作' },
-            ],
+	        columns: [],
             paramsId:'',
-            data: [["test1","false","0"],["test2","false","0"],["test3","false","0"]],
+            data: [],
             modelShow:false,
             editType:'',
-            check:'and',
-            conditions: [
-            	{
-                    value: 'or',
-                    label: 'or'
-               	},
-               	{
-                    value: 'and',
-                    label: 'and'
-                }
-            ], 
+             
             list: message.map((name, index) => {
 		        return { name, order: index + 1, fixed: false };
 		    }),
@@ -276,8 +245,9 @@
             
             tmpVal:'',
             selectVal:'',
+            
+            
 		    value3: 'old',
-		    
             tableSelect:[],
             data3: ['是','否'],
             cityList: [
@@ -286,22 +256,44 @@
                     label: 'New York'
                 }
             ],
+            check:'and',
+            conditions: [
+            	{
+                    value: 'or',
+                    label: 'or'
+               	},
+               	{
+                    value: 'and',
+                    label: 'and'
+                }
+            ],
 		      
 	    };
 	  },
 	  methods: {
-	  	linkTo(){
-	  		this.$router.push({ path: '/labelCategory'+id });
+	  	linkTo(row){
+	  		this.$store.state.formData = row;
+	  		this.$router.push({ path: '/labelCategory/'+this.paramsId });
 	  	},
 	  	handleSelectionChange(selection) {
 	      	this.tableSelect = selection;
 	    },
-	    $_del(){
+	    $_del(pid){
 	    	this.$Modal.confirm({
                 title: '提示',
                 content: '<p>删除后将不能恢复，确认删除<>吗?</p>',
                 onOk: () => {
-                	
+			  		deleteObject({entityId:this.paramsId,primaryKeys:[pid]}).then((res)=>{
+						if(res&&res.details){
+							console.log(res.details);
+			                this.$Message.success('删除成功');
+						}else{
+							this.$Message.error(res.message);
+						}
+		            })
+		            .catch((err) => {
+		            	this.$Message.error(err.message);
+		            });
                 },
                 onCancel: () => {
                 	
@@ -326,45 +318,62 @@
 	  	},
 	  	//刷新
 	  	$_refresh(){
-//	  		this.tableLoading = true;
-	  		this.tableLoading = !this.tableLoading;
-	  		let para = {
-	  			entityId:this.paramsId,
-	  			primaryKey:"1600010605799",
-//	  			columnNames:[],
-//	  			where:'1=1'
+	  		this.tableLoading = true;
+	  		if(this.data.length==0){
+	  			let para = {
+		  			entityId:this.paramsId,
+	//	  			primaryKey:"1600010605799",
+	//	  			columnNames:[],
+	//	  			where:'1=1'
+		  		}
+		  		searchTags(para).then((res)=>{
+					if(res&&res.details){
+						this.data = res.details.data;
+//						this.filterData();
+						this.tableLoading = false;
+						console.log(this.data);
+						console.log(this.columns)
+					}else{
+						this.$Message.error(res.message);
+					}
+	            })
+	            .catch((err) => {
+	            	this.$Message.error(err.message);
+	            });
 	  		}
-	  		console.log(this.columns);
-//	  		for(let i=2;i<this.columns.length;i++){
-//		  		para.columnNames.push(this.columns[i].name);
-//	  		}
-	  		console.log(para)
-//	  		console.log(JSON.stringify(para))
-	  		searchTags(para).then((res)=>{
-//				if(res&&res.details){
-//					console.log(res.details);
-//				}else{
-//					this.$Message.error(res.message);
-//				}
-				console.log(res)
-            })
-            .catch((err) => {
-            	console.log(err)
-            	this.$Message.error(err.message);
-            });
+  			
 	  	},
-	  	
+	  	filterData(){
+//	  		let codeArr = [];
+//			for(let i=0;i<this.columns.length;i++){
+//		  		codeArr.push(this.columns[i].code);
+//	  		}
+//			this.data = this.allTableData.map((item) => {
+//				let arr = [];
+//				codeArr.map((opra) =>{
+//					arr.push(item[opra]);
+//				})
+//				return arr;
+//		    })
+//			console.log(this.data);
+//			this.tableLoading = false;
+
+//			console.log(this.columns)
+	  	},
 	  	//移除标签
-	  	$_delLabel(index){
+	  	$_delLabel(name){
 	  		var tmpIndex = this.columns.findIndex((item) => {
-	  			return item.name == index
+	  			return item.name == name;
 	  		})
 	  		this.columns.splice(tmpIndex,1);
+	  		this.data.forEach((item,i) => {
+	  			this.data[i].splice(tmpIndex,1);
+	  		})
 	  	},
 	  	//删除卡片
-	  	$_delCard(index){
+	  	$_delCard(name){
 	  		var tmpIndex = this.list2.findIndex((item) => {
-	  			return item.name == index
+	  			return item.name == name;
 	  		})
 	  		this.list2.splice(tmpIndex,1);
 	  	},
@@ -372,14 +381,6 @@
 	  	$_clearCard(){
 	  		this.list2=[];
 	  	},
-//	  	onMove({ relatedContext, draggedContext }) {
-//	      const relatedElement = relatedContext.element;
-//	      const draggedElement = draggedContext.element;
-//	      console.log(relatedElement,draggedElement)
-//	      return (
-//	        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-//	      );
-//	   	},
 	   	//导航栏
 	   	$_showTree(index){
 			if(this.current.indexOf(index)==-1){
@@ -403,7 +404,8 @@
        	$_saveOldVal(oldval){
        		this.tmpVal = oldval;
        	},
-       	$_changeVal(val,i,j){
+       	$_changeVal(val,pid,tkey){
+       		console.log(val,pid,tkey)
        		if(val&&this.tmpVal != val){
        			this.$Modal.confirm({
 	                title: '系统提示',
@@ -411,28 +413,25 @@
 	                onOk: () => {
 	                	let para = {
 				  			entityId:this.paramsId,
-				  			primaryKey:"799003fd-1ff0-4808-b4b1-2b81793518f2",
-				  			columnNames:"区域",
-			//	  			where:''
+				  			primaryKeys:pid,
+				  			tags:{}
 				  		}
+	                	para.tags[tkey] = val;
 				  		changeTags(para).then((res)=>{
-			//				if(res&&res.details){
-			//					console.log(res.details);
-			//				}else{
-			//					this.$Message.error(res.message);
-			//				}
-							console.log(res)
+							if(res&&res.details){
+								console.log(res.details);
+			                    this.$Message.success('修改成功');
+							}else{
+								this.$Message.error(res.message);
+							}
 			            })
 			            .catch((err) => {
-			            	console.log(err)
 			            	this.$Message.error(err.message);
 			            });
-	                	
-	                    this.$Message.success('修改成功');
 	                },
 	                onCancel: () => {
-	                	this.data[i][j] = this.tmpVal;
-	                	console.log(this.data)
+//	                	this.data[i][j] = this.tmpVal;
+//	                	console.log(this.data)
 	                }
 	            });
        		}
@@ -455,8 +454,25 @@
       		}
       	},
       	$_onMoved(evt){
-      		console.log(this.columns)
-      		console.log(evt.draggedContext.index,evt.relatedContext.index)
+//    		console.log(evt.draggedContext.index,evt.relatedContext.index);
+//    		let oldIndex = evt.draggedContext.index;
+//    		let newIndex = evt.relatedContext.index;
+//    		this.data.forEach((item,i) => {
+//    			let tem1 = this.data[i][oldIndex];
+//				let tem2 = this.data[i][newIndex];
+//				this.data[i].splice(oldIndex,1,tem2);
+//				this.data[i].splice(newIndex,1,tem1);
+//    		})
+      	},
+      	$_addColumn(evt){
+      		let last = this.columns.length-1;
+      		for(let i=0;i<last;i++){
+  				if(this.columns[i].id==this.columns[last].id){
+	  				this.columns.splice(last,1);
+	  				this.$Message.warning('该标签已存在');
+	  				last--;
+      			}
+      		}
       	}
 	  	},
 	  	mounted() {
@@ -469,10 +485,12 @@
             };
             
             this.paramsId = this.$route.params.id;
-			getTags({type:'tenant',tagEntityId:this.paramsId}).then((res)=>{
+			getTags({type:'platform',tagEntityId:this.paramsId}).then((res)=>{
 				if(res&&res.details&&res.details.data){
 					console.log(res.details.data[0].children);
-					this.treeData = res.details.data[0].children;
+					let tmpTree = res.details.data[0].children;
+					this.treeData = tmpTree;
+//					this.treeData.unshift({name:"关键字",children:[{name:tmpTree[0].entityName}]});
             		this.$Loading.finish();
 				}else{
 					this.$Loading.error();
@@ -513,23 +531,5 @@
 </script>
 
 <style lang="scss">
-	.left-indent{
-		position: relative;
-		left: -3px;
-	}
-	/*tr th:nth-of-type(1){
-		display: inherit;
-		position: absolute;
-		left: 0;
-	}
-	tr th:nth-of-type(2){
-		position: absolute;
-		left:62px;
-		margin-right: 154px;
-	}*/
-	/*tr th:nth-of-type(1){*/
-		/*margin-left: 152px;*/
-	/*}*/
-	
-	
+
 </style>

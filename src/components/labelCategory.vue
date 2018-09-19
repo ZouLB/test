@@ -3,12 +3,12 @@
 		<header>
 			<Row>
 				<Col span="24">
-					<router-link to="baseStation"><Icon type="md-home" /></router-link>
+					<Icon type="md-home" @click="$_goBack"/>
 					<Icon type="md-pricetag"/>
 					<span>name</span>
 					<div class="opra right-float">
 						<Button type="default" ghost @click="$_add"> 新增标签 </Button>
-						<Input placeholder="标签检索" style="width: 235px" />
+						<Input placeholder="标签检索" style="width: 235px" v-model="searchTag"/>
 						<RadioGroup v-model="formSize" type="button">
 				            <Radio label="12">&nbsp;I</Radio>
 				            <Radio label="24">II</Radio>
@@ -22,47 +22,20 @@
 			<Row>
 				<Col span="4">
 					<div class="left">
-						<Anchor :affix="false">
-					        <AnchorLink href="#sort" title="标签类别"/>
-					        <AnchorLink href="#other" title="其他标签" />
+						<Anchor>
+					        <AnchorLink v-for="(v,i) in anchorData" :key="i" :href="'#'+v.id" :title="v.name"/>
 					    </Anchor>
 					</div>
 				</Col>
 				<Col span="20">
 					<div class="right">
 						<div class="rightWrap">
-							<div class="item">
-								<h5 id="sort"><Icon type="ios-radio-button-on" />标签类别</h5>
-								 <Form :label-width="75">
-								 	<Row >
-								    	<!--<Col :xs="{ span: formSize, offset: 0 }" :sm="{ span: formSize, offset: 1 }">-->
-								        <Col :span="formSize" offset="1">
-								        	<FormItem label="性别">
-									            <Input></Input>
-									        </FormItem>
-								        </Col>
-								   </Row>
-							    </Form>
-							</div>
-							
-							<div class="item">
-							    <h5 id="other"><Icon type="ios-radio-button-on" />其他标签</h5>
+							<div class="item" v-for="(item,i) in anchorData" :key="i">
+							    <h5 :id="item.id"><Icon type="ios-radio-button-on" />{{item.name}}</h5>
 								<Row>
 								    <Col :span="formSize" offset="1">
 										<Form :label-width="75">
-									        <FormItem label="性别">
-									            <Input></Input>
-									        </FormItem>
-									        <FormItem label="性别">
-									            <Input></Input>
-									        </FormItem>
-									        <FormItem label="性别">
-									            <Input></Input>
-									        </FormItem>
-									        <FormItem label="性别">
-									            <Input></Input>
-									        </FormItem>
-									        <FormItem label="性别">
+									        <FormItem v-for="(label,index) in item.children" :key="index" :label="label.name">
 									            <Input></Input>
 									        </FormItem>
 									    </Form>
@@ -79,6 +52,7 @@
 	        v-model="addShow"
 	        title="新增标签"
 	        width="400"
+	        @on-ok="$_addSubmit"
 	        >
 	        <Form :label-width="50" ref="" >
 		        <FormItem label="标签">
@@ -91,29 +65,55 @@
 
 <script>
 
-	import { getTags} from '../assets/api/api';
+	import { getTags, changeTags} from '../assets/api/api';
 	
 	export default {
 	  data() {
 	    return {
 	    	formSize:'12',
 	    	addShow:false,
-	    	paramsId:''
+	    	paramsId:'',
+	    	anchorData:[],
+	    	searchTag:''
 	    };
 	  },
 	  methods: {
 	  	$_add(){
 	  		this.addShow = true;
+	  	},
+	  	$_goBack(){
+	  		this.$router.push('/baseStation/'+this.paramsId);
+	  	},
+	  	$_addSubmit(){
+	  		let para = {
+	  			entityId:this.paramsId,
+	  			primaryKeys:["F0E9F4"],
+	  			tagCode:"test",
+	  			tagValue:"car"
+	  		}
+	  		changeTags(para).then((res)=>{
+//				if(res&&res.details){
+//					console.log(res.details);
+//          		this.$Message.success('新增成功');
+//				}else{
+//					this.$Message.error(res.message);
+//				}
+				console.log(res)
+            })
+            .catch((err) => {
+            	console.log(err)
+            	this.$Message.error(err.message);
+            });
+        	
 	  	}
 	  },
 	  mounted() {
 	  	this.$Loading.start();
-        
         this.paramsId = this.$route.params.id;
-		getTags({type:'tenant',tagEntityId:this.paramsId}).then((res)=>{
+		getTags({type:'platform',tagEntityId:this.paramsId}).then((res)=>{
 			if(res&&res.details&&res.details.data){
 				console.log(res.details.data[0].children);
-//				this.treeData = res.details.data[0].children;
+				this.anchorData = res.details.data[0].children;
         		this.$Loading.finish();
 			}else{
 				this.$Loading.error();
@@ -124,10 +124,15 @@
         	this.$Loading.error();
         	this.$Message.error(err.message);
         });
+        console.log(this.$store.state.formData)
 	  },
 	};
 </script>
 
 <style lang="scss">
-	
+	@media only screen and (min-width:860px ) {
+		#label-cate .right .ivu-form-item{
+			margin-right: 40px;
+		}
+	}
 </style>

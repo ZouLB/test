@@ -33,45 +33,29 @@
 	      	</Card>
         </div>
         
-        <p class="tip" v-if="tipShow"><Icon type="md-sad" />搜索不到相关数据</p>
-	    
 	</div>
 </template>
 
 <script>
-	import { getEntity } from '../assets/api/api';
+	import { getEntity} from '../assets/api/api';
 
 	export default {
 		data() {
 			return {
-				tempEntity:[],
 				tagsEntity:[],
 				searchVal:'',
-				tipShow:false,
-//				arrTemp:[]
 			};
 		},
 		methods: {
 			$_search() {
-				if(this.searchVal){
-					this.tagsEntity=[];
-					this.tempEntity.forEach((item) => {
-						if(item.name.indexOf(this.searchVal)!=-1){
-							this.tagsEntity.push(item)
-						}
-					})
-					if(this.tagsEntity.length==0){
-						this.tipShow = true;
-					}else{
-						this.tipShow = false;
-					}
-				}else{
-					this.tagsEntity = this.tempEntity;
-				}
-				
-//				this.$router.push({
-//					path: '/systemDetail'
-//				});
+//				if(this.searchVal==''){
+//					this.$Message.warning('请输入关键字进行搜索');
+//				}else{
+					this.$store.state.searchValue = this.searchVal;
+					this.$router.push({
+						path: '/systemDetail'
+					});
+//				}
 			},
 			$_toBase(id) {
 				this.$router.push({
@@ -81,19 +65,12 @@
 		},
 		mounted() {
 			this.$Loading.start();
-//			this.$axios.post(process.env.API_URL+'/QueryTagsCatalog').then((res)=>{
+//			this.$axios.post(process.env.API_HOST+'/QueryTagsCatalog').then((res)=>{
 			getEntity().then((res)=>{
 				if(res&&res.details){
 //					console.log(res.details.data);
-					this.tempEntity = this.tagsEntity = res.details.data;
-//	                let index = 0;
-//	                for (let i = 0; i < this.tagsEntity.length; i++) {
-//	                    index = parseInt(i / 3);
-//	                    if (this.arrTemp.length <= index) {
-//	                        this.arrTemp.push([]);
-//	                    }
-//	                    this.arrTemp[index].push(this.tagsEntity[i]);
-//	                }
+					this.tagsEntity = res.details.data;
+					this.$store.state.entityData = res.details.data;
             		this.$Loading.finish();
 				}else{
 					this.$Loading.error();
@@ -106,11 +83,7 @@
             });
 		},
 		watch:{
-			searchVal(){
-				if(this.searchVal==''){
-					this.tagsEntity = this.tempEntity;
-				}
-			}
+			
 		}
 	};
 </script>

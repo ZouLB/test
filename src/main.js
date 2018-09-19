@@ -6,6 +6,7 @@ import axios from 'axios';
 import iView from 'iview';
 import '../my-theme/index.less';//自定义主题
 
+import store from './store/store.js'
 
 Vue.config.productionTip = false
 
@@ -26,6 +27,7 @@ router.afterEach(route => {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
