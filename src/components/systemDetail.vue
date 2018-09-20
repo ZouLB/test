@@ -111,9 +111,8 @@
 				});
 			},
 			$_edit() {
-				this.$router.push({
-					path: '/labelCategory/'+this.eid
-				});
+//				this.$store.state.formData = row;
+		  		this.$router.push({ path: `/labelCategory/${this.eid}/edit` });
 			},
 			$_changeMain(id) {
 				this.eid = id;

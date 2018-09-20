@@ -328,6 +328,11 @@
     border: none;
 }
 
+//
 .ivu-checkbox-wrapper{
     font-size: 14px;
+}
+
+.ivu-input[disabled]:hover, fieldset[disabled] .ivu-input:hover{
+    border-color: $border-color1;
 }

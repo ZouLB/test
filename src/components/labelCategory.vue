@@ -13,7 +13,7 @@
 				            <Radio label="12">&nbsp;I</Radio>
 				            <Radio label="24">II</Radio>
 				        </RadioGroup>
-						<Button type="primary" ghost>保存</Button>
+						<Button type="primary" ghost @click="$_save">保存</Button>
 					</div>
 				</Col>
 			</Row>
@@ -34,9 +34,13 @@
 							    <h5 :id="item.id"><Icon type="ios-radio-button-on" />{{item.name}}</h5>
 								<Row>
 								    <Col :span="formSize" offset="1">
-										<Form :label-width="75">
-									        <FormItem v-for="(label,index) in item.children" :key="index" :label="label.name">
-									            <Input></Input>
+										<Form :label-width="75" ref="editForm" :model="editForm">
+									        <FormItem 
+									        	v-for="(label,index) in item.children" 
+									        	v-if="label.name.indexOf(searchTag)!=-1"
+									        	:key="index" 
+									        	:label="label.name">
+									            <Input v-model="form[label.code]" :disabled="label.code=='PID'?true:false"></Input>
 									        </FormItem>
 									    </Form>
 								    </Col>
@@ -74,7 +78,9 @@
 	    	addShow:false,
 	    	paramsId:'',
 	    	anchorData:[],
-	    	searchTag:''
+	    	searchTag:'',
+	    	form:[],
+	    	editForm:{}
 	    };
 	  },
 	  methods: {
@@ -85,27 +91,43 @@
 	  		this.$router.push('/baseStation/'+this.paramsId);
 	  	},
 	  	$_addSubmit(){
-	  		let para = {
-	  			entityId:this.paramsId,
-	  			primaryKeys:["F0E9F4"],
-	  			tagCode:"test",
-	  			tagValue:"car"
-	  		}
-	  		changeTags(para).then((res)=>{
+//	  		let para = {
+//	  			entityId:this.paramsId,
+//	  			primaryKeys:[pid],
+//	  			tags:{}
+//	  		}
+//      	para.tags[tkey] = val;
+//	  		changeTags(para).then((res)=>{
 //				if(res&&res.details){
-//					console.log(res.details);
-//          		this.$Message.success('新增成功');
+//                  this.$Message.success('新增成功');
 //				}else{
 //					this.$Message.error(res.message);
 //				}
-				console.log(res)
-            })
-            .catch((err) => {
-            	console.log(err)
-            	this.$Message.error(err.message);
-            });
-        	
-	  	}
+//          })
+//          .catch((err) => {
+//          	this.$Message.error(err.message);
+//          });
+		  },
+		  $_save(){
+		  	let para = {
+	  			entityId:this.paramsId,
+	  			primaryKeys:[this.form.PID],
+	  			tags:{}
+	  		}
+		  	console.log(para);
+		  	console.log(this.editForm)
+//      	para.tags[tkey] = val;
+//	  		changeTags(para).then((res)=>{
+//				if(res&&res.details){
+//                  this.$Message.success('保存成功');
+//				}else{
+//					this.$Message.error(res.message);
+//				}
+//          })
+//          .catch((err) => {
+//          	this.$Message.error(err.message);
+//          });
+		  }
 	  },
 	  mounted() {
 	  	this.$Loading.start();
@@ -114,6 +136,11 @@
 			if(res&&res.details&&res.details.data){
 				console.log(res.details.data[0].children);
 				this.anchorData = res.details.data[0].children;
+//				this.anchorData.forEach((item) => {
+//					item.children.forEach((child) => {
+//						child.code
+//					})
+//				})
         		this.$Loading.finish();
 			}else{
 				this.$Loading.error();
@@ -124,6 +151,13 @@
         	this.$Loading.error();
         	this.$Message.error(err.message);
         });
+        console.log(this.$route.params.id.type)
+        if(this.$route.params.id.type=='edit'){
+        	this.form = this.$store.state.formData;
+        }else{
+        	
+        }
+        
         console.log(this.$store.state.formData)
 	  },
 	};

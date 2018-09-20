@@ -235,7 +235,6 @@
     
     .ivu-split-pane.top-pane{
         padding: 12px;
-        overflow: auto;
     }
     .ivu-split-pane.bottom-pane{
         overflow: auto;
@@ -330,6 +329,9 @@
                             font-size: 20px;
                             padding-left: 4px;
                         }
+                    }
+                    td .ivu-checkbox-default>span:nth-last-of-type(1){
+                        display: none;
                     }
                     
                 }
@@ -460,6 +462,7 @@
     
     .tableWrap{
         @include absolute(60px,12px,12px,12px);
+        overflow: auto;
     }
     
   
