@@ -21,12 +21,31 @@
 	        </Col>
 	    </Row>-->
 	    
-	    <div class="content clearfix">
+	    <!--<div class="content clearfix">
     		<Card v-for="(item,index) in tagsEntity" class="clearfix card" @click.native="$_toBase(item.id)" :key="index">
 	        	<div>
 	        		<h2>{{item.name}}</h2>
 	        		<div class="character">
 	            		<img src="../assets/img/1.png"/>
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	      	</Card>
+        </div>-->
+        
+        <div class="content clearfix">
+    		<Card  class="clearfix card" @click.native="$_toBase(item.id)" >
+	        	<div>
+	        		<h2>test</h2>
+	        		<div class="character" id="cloud">
+	        		</div>
+	            	<p>精确检索</p>
+	        	</div>
+	      </Card>
+	      	<Card  class="clearfix card" @click.native="$_toBase(item.id)" >
+	        	<div>
+	        		<h2>test</h2>
+	        		<div class="character" id="cloud">
 	        		</div>
 	            	<p>精确检索</p>
 	        	</div>
@@ -38,6 +57,8 @@
 
 <script>
 	import { getEntity} from '../assets/api/api';
+	let echarts = require('echarts/lib/echarts')
+	require('echarts-wordcloud');
 
 	export default {
 		data() {
@@ -48,19 +69,128 @@
 		},
 		methods: {
 			$_search() {
-//				if(this.searchVal==''){
-//					this.$Message.warning('请输入关键字进行搜索');
-//				}else{
-					this.$store.state.searchValue = this.searchVal;
-					this.$router.push({
-						path: '/systemDetail'
-					});
-//				}
+				this.$store.state.searchValue = this.searchVal;
+				this.$router.push({
+					path: '/systemDetail'
+				});
 			},
 			$_toBase(id) {
 				this.$router.push({
 					path: '/baseStation/'+id
 				});
+			},
+			drawWordCloud(index){
+				let chart = echarts.init(document.getElementsByClassName('character')[index]);
+//				let message=[{name:'Sam S Club'},{name:'Macys'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'},{name:'sdasd'}]
+				var option = {
+					tooltip: {
+				        show: true
+				    },
+	                series: [ {
+	                    type: 'wordCloud',
+	                    size: ['80%', '80%'],
+				        textRotation : [0, 45, 90, -45],
+				        textPadding: 0,
+	                    autoSize: {
+				            enable: true,
+				            minSize: 14
+				        },
+	                    textStyle: {
+	                        normal: {
+	                            color: function () {
+	                                return 'rgb(' + [
+	                                    Math.round(Math.random() * 160),
+	                                    Math.round(Math.random() * 160),
+	                                    Math.round(Math.random() * 160)
+	                                ].join(',') + ')';
+	                            }
+	                        },
+//	                        emphasis: {
+//	                            color: 'red'
+//	                        }
+	                   	},
+//	                    data: message.map((item, index) => {
+//					        return { name:item.name,value:10000-(index*500)};
+//					    }),
+	                    data: [ {
+			                name: "Sam S Club",
+			                value: 8000,
+			            },
+			            {
+			                name: "Macys",
+			                value: 6181,
+			            },
+			            {
+			                name: "Amy Schumer",
+			                value: 4386,
+			            }, {
+			                name: "Charter Communications",
+			                value: 2467,
+			            },
+			            {
+			                name: "Chick Fil A",
+			                value: 2244,
+			            },
+			            {
+			                name: "Planet Fitness",
+			                value: 1898,
+			            },
+			            {
+			                name: "Pitch Perfect",
+			                value: 1484,
+			            },
+			            {
+			                name: "Express",
+			                value: 1112,
+			            },
+			            {
+			                name: "Home",
+			                value: 965,
+			            },
+			            {
+			                name: "Johnny Depp",
+			                value: 847,
+			            },
+			            {
+			                name: "Lena Dunham",
+			                value: 582,
+			            },
+			            {
+			                name: "Lewis Hamilton",
+			                value: 555,
+			            },
+			            {
+			                name: "KXAN",
+			                value: 550,
+			            },
+			            {
+			                name: "Mary Ellen Mark",
+			                value: 462,
+			            },
+			            {
+			                name: "Farrah Abraham",
+			                value: 366,
+			            },
+			            {
+			                name: "Rita Ora",
+			                value: 360,
+			            },
+			            {
+			                name: "Serena Williams",
+			                value: 282,
+			            },
+			            {
+			                name: "NCAA baseball tournament",
+			                value: 273,
+			            },
+			            {
+			                name: "Point Break",
+			                value: 265,
+			            }
+			            ]
+	                } ]
+	            };
+				chart.setOption(option);
 			}
 		},
 		mounted() {
@@ -81,6 +211,8 @@
             	this.$Loading.error();
             	this.$Message.error(err.message);
             });
+			this.drawWordCloud(0);
+			this.drawWordCloud(1);
 		},
 		watch:{
 			
@@ -89,5 +221,9 @@
 </script>
 
 <style lang="scss">
-	
+	#cloud{
+		width: 100%;
+		height: 180px;
+		background-color: pink;
+	}
 </style>
