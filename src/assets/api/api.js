@@ -9,10 +9,10 @@ export const getTags = params => { return axios.post(`${base}/QueryTagsCatalog`,
 //查询标签数据
 export const searchTags = params => { return axios.post(`${base}/ListTagData`, params).then(res => res.data); };
 
-//标签
+//打标签
 export const changeTags = params => { return axios.post(`${base}/Tagging`, params).then(res => res.data); };
 
-//获取标签主体（人，车、基站这种）列表
+//获取标签主体列表
 export const getEntity = params => { return axios.post(`${base}/QueryTagsEntity`, params).then(res => res.data); };
 
 //模糊查询

@@ -228,6 +228,32 @@
             font-size: 22px;
         }
     }
+    .current-val{
+        color: $font-color2;
+    }
+    #value{
+        position: relative;
+        left: -5px;
+    }
+    .back-icon{
+        float: left;
+        font-size:22px;
+        line-height: 42px;
+        color: $font-color3;
+        cursor: pointer;
+        &:hover{
+            color: $font-color2;
+        }
+    }
+    .current-menu{
+        border-bottom: 2px solid $main-color;
+    }
+    ul.tab-content.ivu-menu.ivu-menu-light.ivu-menu-horizontal{
+        .ivu-row{
+            height: 44px;
+            overflow: hidden;
+        }
+    }
 }
 
 #base-station{
@@ -289,6 +315,7 @@
                     &>th{
                         height: 39px;
                         border-bottom: 1px solid $table-border;
+                        text-align: center;
                     }
                     tr{
                         display: block;
@@ -302,6 +329,7 @@
                         padding-left: 152px;
                         th{
                             display: inline-block;
+                            text-align: center;
                         }
                     }
                 }
@@ -368,7 +396,15 @@
             padding-left: 5px;
             padding-right: 5px;
         }
-        
+        .labe-page{
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            height: 42px;
+            .ivu-select-selection{
+                margin-top: 0px;
+            }
+        }
     }
     .bottom{
         padding: 24px 12px 12px 12px;
@@ -461,7 +497,7 @@
     }
     
     .tableWrap{
-        @include absolute(60px,12px,12px,12px);
+        @include absolute(60px,12px,52px,12px);
         overflow: auto;
     }
     
@@ -514,7 +550,7 @@
         i.ivu-icon{
             font-size: 24px;
             line-height: 32px;
-            &.ivu-icon-md-home{
+            &.ivu-icon-ios-arrow-back{
                 padding-right: 10px;
                 border-right: 1px solid $border-color2;
                 cursor: pointer;

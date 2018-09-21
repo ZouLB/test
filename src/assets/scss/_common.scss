@@ -140,7 +140,8 @@
     padding: 0 15px;
 }
 .ivu-radio-focus,
-.ivu-radio-group-button .ivu-radio-wrapper-checked:first-child {
+.ivu-radio-group-button .ivu-radio-wrapper-checked:first-child,
+.current-radio{
     background-color: #808695 !important;
 }
 
@@ -327,6 +328,20 @@
 .ivu-split-trigger{
     border: none;
 }
+
+//分页
+.ivu-page{
+    .ivu-page-prev, 
+    .ivu-page-next,
+    .ivu-page-item{
+        background-color: transparent;
+        border-color: $border-color1;
+    }
+    .ivu-page-total{
+        color: $font-color3;
+    }
+}
+
 
 //
 .ivu-checkbox-wrapper{

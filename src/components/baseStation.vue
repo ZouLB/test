@@ -18,8 +18,8 @@
 				    				class="dragArea" 
 				    				:options="{group:{name:'people', pull:'clone', put:false },ghostClass:'ghostLi',dragClass:'dragLi'}">
 					                <li v-for="(n,i) in v.children"  :key="i">
-					                    <span class="ivu-tree-arrow"></span> 
-			          					<span class="ivu-tree-title">{{n.name}}</span> 
+					                    <span class="ivu-tree-arrow"></span>
+			          					<span class="ivu-tree-title">{{n.name}}</span>
 					                </li>
 					             </draggable>
 				             </ul>
@@ -145,6 +145,9 @@
 				        		</div> 
 				        	</div>
 		            	</div>
+						<div class="labe-page">
+							<Page @on-change="changeCurPage" @on-page-size-change="changePageSize" :current="labePageOpt.curPage" :total="labePageOpt.total" :page-size="labePageOpt.pageSize" :page-size-opts="labePageOpt.pageSizeOpts" show-total show-sizer />
+						</div>
 		            </div>
 		            <div slot="bottom" class="demo-split-pane bottom">
 		            	<div class="bot-head">
@@ -290,7 +293,12 @@
 	                    label: 'and'
 	                }
 	            ],
-			      
+				labePageOpt: {
+                    curPage: 1,
+		    		total: 0,
+					pageSize: 50,
+                    pageSizeOpts: [50, 100, 150, 200]		//每页条数下拉选择
+				}
 		    };
 		  },
 		  methods: {
@@ -370,31 +378,44 @@
 		  		if(this.columns.length==0){
 		  			this.$Message.warning("请拖动相关属性");
 		  		}else if(this.columns.length>0&&this.data.length==0){
-			  		this.tableLoading = true;
-		  			let para = {
-			  			entityId:this.paramsId,
-			 
-		//	  			primaryKey:"1600010605799",
-		//	  			columnNames:[],
-//			  			where:'PID=1618042074699'
-			  		}
-			  		searchTags(para).then((res)=>{
-						if(res&&res.details){
-							this.data = res.details.data;
-	//						this.filterData();
-							this.tableLoading = false;
-							console.log(this.data);
-							console.log(this.columns)
-						}else{
-							this.$Message.error(res.message);
-						}
-		            })
-		            .catch((err) => {
-		            	this.$Message.error(err.message);
-		            });
+		  		  this.getTagData();
 		  		}
-	  			
 		  	},
+			changeCurPage(curPage){
+		  	  this.labePageOpt.curPage = curPage;
+		  	  this.getTagData();
+			},
+			changePageSize(pageSize){
+		  	  this.labePageOpt.pageSize = pageSize;
+		  	  this.labePageOpt.curPage = 1;
+		  	  this.getTagData();
+			},
+			getTagData(){
+              this.tableLoading = true;
+              let skip = (this.labePageOpt.curPage - 1) * this.labePageOpt.pageSize;
+              let limit = this.labePageOpt.pageSize;
+              let param = {
+                entityId:this.paramsId,
+                skip,limit,
+                //	  			primaryKey:"1600010605799",
+                //	  			columnNames:[],
+//			  			where:"PID=1617031277599"
+              }
+              searchTags(param).then((res)=>{
+                if(res&&res.details){
+                  this.labePageOpt.total = res.details.pageParam.recordTotal;
+                  this.data = res.details.data;
+                  //						this.filterData();
+                  this.tableLoading = false;
+                  console.log(this.data);
+                  console.log(this.columns)
+                }else{
+                  this.$Message.error(res.message);
+                }
+              }).catch((err) => {
+				  this.$Message.error(err.message);
+			  });
+			},
 //		  	filterData(){
 	//	  		let codeArr = [];
 	//			for(let i=0;i<this.columns.length;i++){

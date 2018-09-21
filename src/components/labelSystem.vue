@@ -21,31 +21,12 @@
 	        </Col>
 	    </Row>-->
 	    
-	    <!--<div class="content clearfix">
+	    <div class="content clearfix">
     		<Card v-for="(item,index) in tagsEntity" class="clearfix card" @click.native="$_toBase(item.id)" :key="index">
 	        	<div>
 	        		<h2>{{item.name}}</h2>
 	        		<div class="character">
 	            		<img src="../assets/img/1.png"/>
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	      	</Card>
-        </div>-->
-        
-        <div class="content clearfix">
-    		<Card  class="clearfix card" @click.native="$_toBase(item.id)" >
-	        	<div>
-	        		<h2>test</h2>
-	        		<div class="character" id="cloud">
-	        		</div>
-	            	<p>精确检索</p>
-	        	</div>
-	      </Card>
-	      	<Card  class="clearfix card" @click.native="$_toBase(item.id)" >
-	        	<div>
-	        		<h2>test</h2>
-	        		<div class="character" id="cloud">
 	        		</div>
 	            	<p>精确检索</p>
 	        	</div>
@@ -56,7 +37,7 @@
 </template>
 
 <script>
-	import { getEntity} from '../assets/api/api';
+	import { getEntity, getHotTag} from '../assets/api/api';
 	let echarts = require('echarts/lib/echarts')
 	require('echarts-wordcloud');
 
@@ -75,9 +56,7 @@
 				});
 			},
 			$_toBase(id) {
-				this.$router.push({
-					path: '/baseStation/'+id
-				});
+				this.$router.push({path: '/baseStation/'+id});
 			},
 			drawWordCloud(index){
 				let chart = echarts.init(document.getElementsByClassName('character')[index]);
@@ -119,78 +98,26 @@
 			            {
 			                name: "Macys",
 			                value: 6181,
-			            },
-			            {
-			                name: "Amy Schumer",
-			                value: 4386,
-			            }, {
-			                name: "Charter Communications",
-			                value: 2467,
-			            },
-			            {
-			                name: "Chick Fil A",
-			                value: 2244,
-			            },
-			            {
-			                name: "Planet Fitness",
-			                value: 1898,
-			            },
-			            {
-			                name: "Pitch Perfect",
-			                value: 1484,
-			            },
-			            {
-			                name: "Express",
-			                value: 1112,
-			            },
-			            {
-			                name: "Home",
-			                value: 965,
-			            },
-			            {
-			                name: "Johnny Depp",
-			                value: 847,
-			            },
-			            {
-			                name: "Lena Dunham",
-			                value: 582,
-			            },
-			            {
-			                name: "Lewis Hamilton",
-			                value: 555,
-			            },
-			            {
-			                name: "KXAN",
-			                value: 550,
-			            },
-			            {
-			                name: "Mary Ellen Mark",
-			                value: 462,
-			            },
-			            {
-			                name: "Farrah Abraham",
-			                value: 366,
-			            },
-			            {
-			                name: "Rita Ora",
-			                value: 360,
-			            },
-			            {
-			                name: "Serena Williams",
-			                value: 282,
-			            },
-			            {
-			                name: "NCAA baseball tournament",
-			                value: 273,
-			            },
-			            {
-			                name: "Point Break",
-			                value: 265,
-			            }
-			            ]
+			            }]
 	                } ]
 	            };
 				chart.setOption(option);
+			},
+			getHot(id,arr){
+				getHotTag({
+					tagEntityId:id,
+					type:"usageCount"
+				})
+				.then((res) => {
+					if(res && res.details) {
+						arr.tags=res.details.data;
+					} else {
+						this.$Message.error(res.message);
+					}
+				})
+				.catch((err) => {
+					this.$Message.error(err.message);
+				});
 			}
 		},
 		mounted() {
@@ -198,9 +125,12 @@
 //			this.$axios.post(process.env.API_HOST+'/QueryTagsCatalog').then((res)=>{
 			getEntity().then((res)=>{
 				if(res&&res.details){
-//					console.log(res.details.data);
 					this.tagsEntity = res.details.data;
 					this.$store.state.entityData = res.details.data;
+					this.tagsEntity.forEach((entity) => {
+						this.getHot(entity.id,entity);
+					})
+					console.log(this.tagsEntity);
             		this.$Loading.finish();
 				}else{
 					this.$Loading.error();
@@ -211,8 +141,11 @@
             	this.$Loading.error();
             	this.$Message.error(err.message);
             });
-			this.drawWordCloud(0);
-			this.drawWordCloud(1);
+            
+            
+			
+//          this.drawWordCloud(0);
+//			this.drawWordCloud(1);
 		},
 		watch:{
 			
@@ -221,9 +154,9 @@
 </script>
 
 <style lang="scss">
-	#cloud{
-		width: 100%;
+	.character{
+		/*width: 100%;
 		height: 180px;
-		background-color: pink;
+		background-color: pink;*/
 	}
 </style>
